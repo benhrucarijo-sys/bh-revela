@@ -628,6 +628,16 @@ for (let i = 0; i < 14; i++){
   suitsEl.appendChild(s);
 }
 
+// Revelar seções ao rolar (precisa vir ANTES das renderizações)
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
+  });
+}, { threshold: 0.12 });
+function observeReveal(){
+  document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el));
+}
+
 // Imagem de personagem, pet ou arma. Se faltar o arquivo, mostra "FOTO EM BREVE"
 function thumb(file, nome, folder, ext = "svg"){
   return `<div class="thumb">
@@ -720,13 +730,7 @@ document.addEventListener("pointermove", e => {
   card.style.setProperty("--my", (e.clientY - r.top) + "px");
 });
 
-// Revelar seções ao rolar
-const io = new IntersectionObserver(entries => {
-  entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
-}, { threshold: 0.12 });
-function observeReveal(){
-  document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el));
-}
+// Revela as seções fixas (títulos e cards de séries/personagens/armas)
 observeReveal();
 </script>
 </body>
