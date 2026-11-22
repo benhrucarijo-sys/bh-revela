@@ -553,7 +553,7 @@ const SERIES = [
   ]}
 ];
 
-/* Personagens e pets: arquivos PNG em img/personagens/ com estes nomes (minúsculas) */
+/* Personagens e pets: arquivos em img/personagens/ com estes nomes (minúsculas) */
 const CHARS = ["Alok", "Kelly", "Moco", "Maxim"];
 const PETS  = [
   { nome: "Tigrinho", file: "tigrinho" },
@@ -681,8 +681,9 @@ const RULES = [
    RENDERIZAÇÃO (não precisa mexer daqui pra baixo)
    ============================================================ */
 
-// Remove o fundo branco de imagens que não são PNG (SVG/JPG).
-// Só apaga o branco ligado às bordas, então brilhos brancos dentro da imagem continuam.
+// Remove o fundo branco (ou quase branco) ligado às bordas da imagem.
+// Vale para qualquer imagem, mesmo as que têm .png no nome mas são JPG ou PNG opaco.
+// Brancos dentro da imagem, que não tocam as bordas, são preservados.
 function cleanWhite(img){
   if (img.dataset.cleaned) return;
   img.dataset.cleaned = "1";
@@ -690,16 +691,26 @@ function cleanWhite(img){
   const h = img.naturalHeight || 300;
   const c = document.createElement("canvas");
   c.width = w; c.height = h;
-  const ctx = c.getContext("2d");
+  const ctx = c.getContext("2d", { willReadFrequently: true });
   try {
     ctx.drawImage(img, 0, 0, w, h);
     const id = ctx.getImageData(0, 0, w, h);
     const d = id.data;
-    const isWhite = p => d[p*4] > 235 && d[p*4+1] > 235 && d[p*4+2] > 235;
+
+    // Branco ou cinza muito claro e pouco saturado (cobre o branco "sujo" de JPG)
+    const isWhite = p => {
+      const i = p * 4;
+      if (d[i+3] < 10) return false;
+      const r = d[i], g = d[i+1], b = d[i+2];
+      const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+      return mn >= 218 && (mx - mn) <= 32;
+    };
+
     const seen = new Uint8Array(w * h);
     const stack = [];
     for (let x = 0; x < w; x++){ stack.push(x); stack.push((h-1)*w + x); }
     for (let y = 0; y < h; y++){ stack.push(y*w); stack.push(y*w + w - 1); }
+
     while (stack.length){
       const p = stack.pop();
       if (seen[p]) continue;
@@ -732,12 +743,11 @@ for (let i = 0; i < 14; i++){
   suitsEl.appendChild(s);
 }
 
-// Imagem de personagem, pet ou arma. Se não for PNG, tira o fundo branco.
+// Imagem de personagem, pet ou arma. Tira o fundo branco de qualquer imagem.
 // Se faltar o arquivo, mostra "FOTO EM BREVE".
 function thumb(file, nome, folder, ext = "svg"){
-  const clean = ext !== "png" ? ' onload="cleanWhite(this)"' : "";
   return `<div class="thumb">
-    <img src="img/${folder}/${file}.${ext}" alt="${nome}" loading="lazy"${clean}
+    <img src="img/${folder}/${file}.${ext}" alt="${nome}" loading="lazy" onload="cleanWhite(this)"
       onerror="this.remove();this.parentElement.insertAdjacentHTML('beforeend','<span class=&quot;ph&quot;>FOTO EM BREVE</span>')">
   </div>`;
 }
@@ -772,7 +782,7 @@ document.getElementById("series-grid").innerHTML = SERIES.map(s => {
   </details>`;
 }).join("");
 
-// Personagens (PNG)
+// Personagens
 document.getElementById("chars-grid").innerHTML = CHARS.map(c => `
   <div class="card reveal">
     ${thumb(c.toLowerCase(), c, "personagens", "png")}
@@ -780,7 +790,7 @@ document.getElementById("chars-grid").innerHTML = CHARS.map(c => `
     <div class="thumb-name">${c}</div>
   </div>`).join("");
 
-// Pets (PNG)
+// Pets
 document.getElementById("pets-grid").innerHTML = PETS.map(p => `
   <div class="card reveal">
     ${thumb(p.file, p.nome, "personagens", "png")}
@@ -788,7 +798,7 @@ document.getElementById("pets-grid").innerHTML = PETS.map(p => `
     <div class="thumb-name">${p.nome}</div>
   </div>`).join("");
 
-// Armas (SVG)
+// Armas
 document.getElementById("weapons-grid").innerHTML = WEAPONS.map(w => `
   <div class="card reveal">
     ${thumb(w.file, w.nome, "armas")}
