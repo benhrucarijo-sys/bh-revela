@@ -20,6 +20,8 @@
     --muted:#8d99b3;
     --line:rgba(79,195,255,.18);
     --glass:rgba(13,26,54,.55);
+    --wpp:#25d366;
+    --wpp-dark:#128c4a;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -100,6 +102,16 @@
     0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 10px 26px -6px rgba(31,111,255,.7)}
     50%{box-shadow:0 0 0 1px rgba(255,255,255,.22) inset,0 14px 44px -4px rgba(79,195,255,1)}
   }
+
+  .btn-wpp{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(135deg,var(--wpp),var(--wpp-dark));
+    color:#fff;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;
+    padding:15px 28px;border-radius:16px;white-space:nowrap;
+    box-shadow:0 10px 30px -5px rgba(37,211,102,.55);
+    transition:transform .25s, box-shadow .25s;
+  }
+  .btn-wpp:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 16px 40px -4px rgba(37,211,102,.85)}
 
   /* ---------- HERO ---------- */
   .hero{padding:56px 0 50px;text-align:center;position:relative}
@@ -216,23 +228,50 @@
   .thumb-cat{font-size:.68rem;color:var(--cyan);text-transform:uppercase;letter-spacing:2.5px;font-weight:800;margin-bottom:2px}
   .thumb-name{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:.95rem}
 
-  /* séries */
-  .serie .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-  .serie .badge{
-    font-size:.66rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;
-    padding:5px 11px;border-radius:999px;background:rgba(79,195,255,.12);color:var(--cyan);
+  /* ---------- SÉRIES ---------- */
+  .series-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+  .serie{
+    position:relative;overflow:hidden;
+    background:linear-gradient(160deg,rgba(13,26,54,.9),rgba(10,18,38,.9));
+    border:1px solid var(--line);border-radius:20px;
+    transition:border-color .3s, box-shadow .3s;
   }
-  .serie .suit{font-size:1.8rem;color:rgba(79,195,255,.25)}
-  .serie h3{font-size:1.9rem;margin-bottom:6px}
-  .serie p{color:var(--muted);font-size:.9rem}
-  .serie .status{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);font-weight:700}
-  .serie .status b{color:#7dffb0}
-  .serie .status b.off{color:#ff9d9d}
+  .serie[open]{border-color:rgba(79,195,255,.5);box-shadow:0 18px 40px -12px rgba(31,111,255,.4)}
+  .serie summary{
+    cursor:pointer;list-style:none;padding:20px 22px;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .serie summary::-webkit-details-marker{display:none}
+  .s-name{font-family:'Bebas Neue';font-size:2.1rem;letter-spacing:2px;line-height:1;display:block}
+  .s-sub{display:block;margin-top:6px;font-size:.8rem;color:var(--muted);font-weight:700}
+  .s-right{display:flex;align-items:center;gap:12px}
+  .s-status{display:flex;align-items:center;font-size:.78rem;font-weight:800;color:#7dffb0;white-space:nowrap}
+  .s-status.off{color:#ff9d9d}
+  .s-arrow{
+    width:12px;height:12px;flex:0 0 12px;
+    border-right:2px solid var(--cyan);border-bottom:2px solid var(--cyan);
+    transform:rotate(45deg);transition:transform .3s;
+  }
+  .serie[open] .s-arrow{transform:rotate(-135deg)}
+  .s-body{padding:4px 22px 22px;border-top:1px solid var(--line)}
+  .rank{margin-top:18px}
+  .rank-head{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;
+    font-weight:900;text-transform:uppercase;letter-spacing:1.5px;font-size:.8rem;color:var(--cyan);
+  }
+  .qtd{color:var(--muted);font-weight:700;letter-spacing:0;text-transform:none;font-size:.78rem}
+  .names{display:flex;flex-wrap:wrap;gap:6px}
+  .nm{
+    font-size:.8rem;font-weight:700;padding:5px 11px;border-radius:999px;
+    background:rgba(79,195,255,.08);border:1px solid var(--line);color:var(--silver);
+  }
   .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7dffb0;box-shadow:0 0 10px #7dffb0;margin-right:6px;animation:blink 1.6s infinite}
   .dot.off{background:#ff9d9d;box-shadow:0 0 10px #ff9d9d;animation:none}
   @keyframes blink{50%{opacity:.35}}
+  .wpp-area{text-align:center;margin-top:30px}
+  .wpp-area p{color:var(--muted);margin-bottom:16px;font-size:.95rem}
 
-  /* regras */
+  /* ---------- REGRAS ---------- */
   .rules details{
     background:linear-gradient(160deg,rgba(13,26,54,.85),rgba(10,18,38,.85));
     border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden;
@@ -297,6 +336,7 @@
   .cta-box > *{position:relative}
   .cta-box h2{font-size:clamp(2.2rem,6vw,3.4rem);margin-bottom:8px}
   .cta-box p{color:var(--muted);margin-bottom:26px}
+  .cta-box .btn-wpp{margin-top:14px}
 
   footer{
     position:relative;z-index:2;border-top:1px solid var(--line);
@@ -321,18 +361,22 @@
     .ace .sym{font-size:2.4rem}
     .ace.l{left:-14px}
     .ace.r{right:-14px}
+    .series-list{grid-template-columns:1fr}
+    .s-name{font-size:1.8rem}
+    .serie summary{padding:17px 16px}
+    .s-body{padding:4px 16px 18px}
     .grid{grid-template-columns:repeat(2,1fr);gap:12px}
     .card{padding:13px;border-radius:16px}
     .thumb{margin-bottom:10px;border-radius:12px}
     .thumb-name{font-size:.82rem}
     .hero .btn-discord{width:100%;font-size:.98rem;padding:17px}
     .btn-discord:not(.small){width:100%}
+    .btn-wpp{width:100%}
     .menu .btn-discord{width:auto}
     .rules .body{padding:0 18px 18px 18px}
     .rules summary .num{min-width:30px;height:30px;font-size:1rem}
     .toolbar .ghost{width:100%}
     .chips a{font-size:.8rem;padding:8px 13px}
-    .serie h3{font-size:1.6rem}
     .mobile-bar{
       display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
       z-index:60;padding:10px;border-radius:20px;
@@ -362,7 +406,7 @@
 <header>
   <div class="container nav">
     <a href="#inicio" class="brand">
-      <img src="img/logo.jpg" alt="Logo BH Revela" onerror="this.style.display='none'">
+      <img src="img/logo.jpg" alt="Logo BH Revela" onload="cleanWhite(this)" onerror="this.style.display='none'">
       <span>BH REVELA</span>
     </a>
     <nav class="menu">
@@ -386,7 +430,7 @@
 
     <div class="container">
       <div class="logo-wrap">
-        <img class="hero-logo" src="img/logo.jpg" alt="Logo BH Revela" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img class="hero-logo" src="img/logo.jpg" alt="Logo BH Revela" onload="cleanWhite(this)" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="hero-fallback">BH REVELA</div>
       </div>
 
@@ -414,7 +458,12 @@
   <section id="series">
     <div class="container">
       <div class="sec-title"><span class="num">01</span><h2>Séries</h2></div>
-      <div class="grid" id="series-grid"></div>
+      <div class="series-list" id="series-grid"></div>
+
+      <div class="wpp-area">
+        <p>Grupo oficial das séries no WhatsApp</p>
+        <a class="btn-wpp" href="https://chat.whatsapp.com/DTWJAxJahlr9BysUo7K7M9" target="_blank" rel="noopener">💬 Entrar no grupo do WhatsApp</a>
+      </div>
     </div>
   </section>
 
@@ -455,6 +504,8 @@
         <h2>Pronto para jogar?</h2>
         <p>Entre no Discord oficial, acompanhe os sorteios e fique por dentro de tudo.</p>
         <a class="btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
+        <br>
+        <a class="btn-wpp" href="https://chat.whatsapp.com/DTWJAxJahlr9BysUo7K7M9" target="_blank" rel="noopener">💬 Grupo do WhatsApp</a>
       </div>
     </div>
   </section>
@@ -476,14 +527,30 @@
 
 <script>
 /* ============================================================
-   EDITE AQUI: séries (troque pelos nomes e status reais)
+   EDITE AQUI: séries e jogadores
    aberta: true = aberta | false = fechada
+   Para adicionar ou tirar alguém, edite a lista "jogadores".
+   A quantidade de pessoas é calculada sozinha.
    ============================================================ */
 const SERIES = [
-  { nome: "Série A", faixa: "Nível 25+", desc: "Partidas FULL UMP com pareamento por série.", aberta: true },
-  { nome: "Série B", faixa: "Nível 25+", desc: "Partidas FULL UMP com pareamento por série.", aberta: true },
-  { nome: "Série C", faixa: "Nível 25+", desc: "Partidas FULL UMP com pareamento por série.", aberta: false },
-  { nome: "Série D", faixa: "Nível 25+", desc: "Partidas FULL UMP com pareamento por série.", aberta: false }
+  { nome: "Série A", aberta: true, ranks: [
+    { nome: "Elite", jogadores: ["Hunter7", "Jeanzn (mobilador)"] },
+    { nome: "Média", jogadores: ["Win Hack"] },
+    { nome: "Inicial", jogadores: ["Arthur7", "Ruanffz", "Dantesw7", "Professor", "Pecadffx", "Kaue (emu)", "Gojo", "Golden", "Berlim", "Adrr", "Cloud", "Ryanzera", "Ribeiro", "Lisoz"] }
+  ]},
+  { nome: "Série B", aberta: true, ranks: [
+    { nome: "Elite", jogadores: ["Chinês", "Ph", "Shock", "Alvezn", "Grogue", "Podosk", "Nix", "Vitor (emu)", "Kauan", "Psico", "Toma Jack", "Luxury", "Lipe7", "Bankterror", "Lipeffz", "Ferreira", "Wsffx", "Pedro7", "China", "Weak", "Harty", "Ricardoleao", "MSI", "Easymoney", "Nicffz Zn (mobile)", "Ribeiro7", "Libert", "Fe", "Coutinho", "Carlos", "rusty", "Ferrari"] },
+    { nome: "Média", jogadores: ["Souza", "Lc", "Mkffz", "Blatoemfake", "Arthurswag", "Polenta", "Gaúchaffz", "Veloso", "Thiagozft7", "Max", "Vini", "Ncl", "Angelzn", "Cadu", "Pietro", "Samu", "Peep", "Dio", "Brando", "Kvn", "Patrocina", "Fulganacivil", "XD", "Doutrina", "77777y", "Leozinffz", "Obito", "menorfxp", "r7"] },
+    { nome: "Inicial", jogadores: ["Bememal", "DG", "Yuki", "Al7 Wrong", "JG", "Thiago", "Thor", "Xre300", "Sys", "Alves!", "Iloveforgod", "Novaera", "Pipokoffx", "GB", "RD Oliveiraffx", "Cadillac", "Francorlq", "Xiucareca", "Cyclone", "Seelifeng", "30tou", "BGZ", "LimaFFX", "T7", "Dn", "Doosday", "SyncX"] }
+  ]},
+  { nome: "Série C", aberta: true, ranks: [
+    { nome: "Elite", jogadores: ["R7zin", "Kauanzin", "Bielzin7", "N7", "Luketa", "Dkzin", "Mts7", "Ryanx7", "Ghost7", "Tropa", "Kzin7", "Mlkzin", "Drkff", "Tk7", "Deus&amp;Jesus"] },
+    { nome: "Média", jogadores: ["Ryanx", "João7", "Tragedy", "Munay", "Gab7648", "Spingar", "Ariano", "ZKzin", "Luanff", "Kadu7", "Nandox", "Raffa", "M10", "2qn"] },
+    { nome: "Inicial", jogadores: ["Inicio", "Cryclone", "Diasdificeis", "Haridade", "Kyanca", "Raulmlkpuro", "Desproza7", "FBzin", "Rdz7", "Baixinhack", "Azeitona", "Mascotezzq", "Vitin7", "Juninff", "Pedrinff", "Lkzin", "Rafinha7", "Kauêzin", "Dk7", "Natanff", "Gui7", "Teteu7", "M4x"] }
+  ]},
+  { nome: "Série D", aberta: true, ranks: [
+    { nome: "Geral", jogadores: ["Vitinff", "Luanx", "K9zin", "Pedrin7", "Rafazn", "Tkzin", "Bielzin", "Ravi", "Vini7", "Largatao", "Fabiano", "JS Full4", "Blatoffzfull4", "Rianzn"] }
+  ]}
 ];
 
 /* Personagens e pets: arquivos PNG em img/personagens/ com estes nomes (minúsculas) */
@@ -614,6 +681,44 @@ const RULES = [
    RENDERIZAÇÃO (não precisa mexer daqui pra baixo)
    ============================================================ */
 
+// Remove o fundo branco de imagens que não são PNG (SVG/JPG).
+// Só apaga o branco ligado às bordas, então brilhos brancos dentro da imagem continuam.
+function cleanWhite(img){
+  if (img.dataset.cleaned) return;
+  img.dataset.cleaned = "1";
+  const w = img.naturalWidth || 400;
+  const h = img.naturalHeight || 300;
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const ctx = c.getContext("2d");
+  try {
+    ctx.drawImage(img, 0, 0, w, h);
+    const id = ctx.getImageData(0, 0, w, h);
+    const d = id.data;
+    const isWhite = p => d[p*4] > 235 && d[p*4+1] > 235 && d[p*4+2] > 235;
+    const seen = new Uint8Array(w * h);
+    const stack = [];
+    for (let x = 0; x < w; x++){ stack.push(x); stack.push((h-1)*w + x); }
+    for (let y = 0; y < h; y++){ stack.push(y*w); stack.push(y*w + w - 1); }
+    while (stack.length){
+      const p = stack.pop();
+      if (seen[p]) continue;
+      seen[p] = 1;
+      if (!isWhite(p)) continue;
+      d[p*4+3] = 0;
+      const x = p % w, y = (p - x) / w;
+      if (x > 0)     stack.push(p - 1);
+      if (x < w - 1) stack.push(p + 1);
+      if (y > 0)     stack.push(p - w);
+      if (y < h - 1) stack.push(p + w);
+    }
+    ctx.putImageData(id, 0, 0);
+    img.src = c.toDataURL("image/png");
+  } catch (e) {
+    /* se o navegador bloquear o processamento, mantém a imagem original */
+  }
+}
+
 // Naipes flutuando no fundo
 const suitsEl = document.getElementById("suits");
 const SUITS = ["♠","♣","♥","♦"];
@@ -627,29 +732,45 @@ for (let i = 0; i < 14; i++){
   suitsEl.appendChild(s);
 }
 
-// Imagem de personagem, pet ou arma. Se faltar o arquivo, mostra "FOTO EM BREVE"
+// Imagem de personagem, pet ou arma. Se não for PNG, tira o fundo branco.
+// Se faltar o arquivo, mostra "FOTO EM BREVE".
 function thumb(file, nome, folder, ext = "svg"){
+  const clean = ext !== "png" ? ' onload="cleanWhite(this)"' : "";
   return `<div class="thumb">
-    <img src="img/${folder}/${file}.${ext}" alt="${nome}" loading="lazy"
+    <img src="img/${folder}/${file}.${ext}" alt="${nome}" loading="lazy"${clean}
       onerror="this.remove();this.parentElement.insertAdjacentHTML('beforeend','<span class=&quot;ph&quot;>FOTO EM BREVE</span>')">
   </div>`;
 }
 
-// Séries
-document.getElementById("series-grid").innerHTML = SERIES.map(s => `
-  <div class="card serie reveal">
-    <div class="top">
-      <span class="badge">${s.faixa}</span>
-      <span class="suit">♠</span>
-    </div>
-    <h3>${s.nome}</h3>
-    <p>${s.desc}</p>
-    <div class="status">
-      ${s.aberta
-        ? '<span class="dot"></span><b>Aberta</b>'
-        : '<span class="dot off"></span><b class="off">Fechada</b>'}
-    </div>
-  </div>`).join("");
+// Séries (cada uma abre ao clicar e mostra os ranks com os nomes)
+document.getElementById("series-grid").innerHTML = SERIES.map(s => {
+  const total = s.ranks.reduce((acc, r) => acc + r.jogadores.length, 0);
+  const ranks = s.ranks.map(r => `
+    <div class="rank">
+      <div class="rank-head">
+        <span>${r.nome}</span>
+        <span class="qtd">${r.jogadores.length} ${r.jogadores.length === 1 ? "pessoa" : "pessoas"}</span>
+      </div>
+      <div class="names">${r.jogadores.map(j => `<span class="nm">${j}</span>`).join("")}</div>
+    </div>`).join("");
+
+  return `
+  <details class="serie reveal">
+    <summary>
+      <span>
+        <span class="s-name">${s.nome}</span>
+        <span class="s-sub">${total} ${total === 1 ? "pessoa" : "pessoas"} · ${s.ranks.length} ${s.ranks.length === 1 ? "rank" : "ranks"}</span>
+      </span>
+      <span class="s-right">
+        <span class="s-status${s.aberta ? "" : " off"}">
+          <span class="dot${s.aberta ? "" : " off"}"></span>${s.aberta ? "Aberta" : "Fechada"}
+        </span>
+        <span class="s-arrow"></span>
+      </span>
+    </summary>
+    <div class="s-body">${ranks}</div>
+  </details>`;
+}).join("");
 
 // Personagens (PNG)
 document.getElementById("chars-grid").innerHTML = CHARS.map(c => `
