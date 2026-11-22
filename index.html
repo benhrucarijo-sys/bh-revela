@@ -681,9 +681,8 @@ const RULES = [
    RENDERIZAÇÃO (não precisa mexer daqui pra baixo)
    ============================================================ */
 
-// Remove o fundo branco (ou quase branco) ligado às bordas da imagem.
-// Vale para qualquer imagem, mesmo as que têm .png no nome mas são JPG ou PNG opaco.
-// Brancos dentro da imagem, que não tocam as bordas, são preservados.
+// Remove o fundo da imagem (branco, cinza ou degradê parecido com a cor das bordas).
+// Só apaga o que está ligado às bordas, então o personagem é preservado.
 function cleanWhite(img){
   if (img.dataset.cleaned) return;
   img.dataset.cleaned = "1";
@@ -697,32 +696,51 @@ function cleanWhite(img){
     const id = ctx.getImageData(0, 0, w, h);
     const d = id.data;
 
-    // Branco ou cinza muito claro e pouco saturado (cobre o branco "sujo" de JPG)
-    const isWhite = p => {
-      const i = p * 4;
-      if (d[i+3] < 10) return false;
-      const r = d[i], g = d[i+1], b = d[i+2];
-      const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
-      return mn >= 218 && (mx - mn) <= 32;
-    };
+    // Lista os pixels da borda e calcula a cor média do fundo
+    const border = [];
+    for (let x = 0; x < w; x++){ border.push((h-1)*w + x); border.push(x); }
+    for (let y = 0; y < h; y++){ border.push(y*w); border.push(y*w + w - 1); }
 
-    const seen = new Uint8Array(w * h);
+    let sr = 0, sg = 0, sb = 0, n = 0;
+    for (const p of border){
+      const i = p*4;
+      if (d[i+3] > 10){ sr += d[i]; sg += d[i+1]; sb += d[i+2]; n++; }
+    }
+    if (!n) return;
+    const ar = sr/n, ag = sg/n, ab = sb/n;
+
+    const T_BG = 110;    // diferença máxima em relação à cor média do fundo
+    const T_VIZ = 40;    // diferença máxima entre pixels vizinhos (acompanha o degradê)
+
+    const done = new Uint8Array(w*h);
     const stack = [];
-    for (let x = 0; x < w; x++){ stack.push(x); stack.push((h-1)*w + x); }
-    for (let y = 0; y < h; y++){ stack.push(y*w); stack.push(y*w + w - 1); }
+    for (const p of border) stack.push(-1, p);
 
     while (stack.length){
       const p = stack.pop();
-      if (seen[p]) continue;
-      seen[p] = 1;
-      if (!isWhite(p)) continue;
-      d[p*4+3] = 0;
+      const from = stack.pop();
+      if (done[p]) continue;
+      const i = p*4;
+      if (d[i+3] <= 10){ done[p] = 1; continue; }
+
+      const dBg = Math.hypot(d[i]-ar, d[i+1]-ag, d[i+2]-ab);
+      if (dBg > T_BG) continue;
+
+      if (from >= 0){
+        const j = from*4;
+        const dViz = Math.hypot(d[i]-d[j], d[i+1]-d[j+1], d[i+2]-d[j+2]);
+        if (dViz > T_VIZ) continue;
+      }
+
+      done[p] = 1;
+      d[i+3] = 0;
       const x = p % w, y = (p - x) / w;
-      if (x > 0)     stack.push(p - 1);
-      if (x < w - 1) stack.push(p + 1);
-      if (y > 0)     stack.push(p - w);
-      if (y < h - 1) stack.push(p + w);
+      if (x > 0)     stack.push(p, p-1);
+      if (x < w - 1) stack.push(p, p+1);
+      if (y > 0)     stack.push(p, p-w);
+      if (y < h - 1) stack.push(p, p+w);
     }
+
     ctx.putImageData(id, 0, 0);
     img.src = c.toDataURL("image/png");
   } catch (e) {
@@ -743,7 +761,7 @@ for (let i = 0; i < 14; i++){
   suitsEl.appendChild(s);
 }
 
-// Imagem de personagem, pet ou arma. Tira o fundo branco de qualquer imagem.
+// Imagem de personagem, pet ou arma. Tira o fundo de qualquer imagem.
 // Se faltar o arquivo, mostra "FOTO EM BREVE".
 function thumb(file, nome, folder, ext = "svg"){
   return `<div class="thumb">
