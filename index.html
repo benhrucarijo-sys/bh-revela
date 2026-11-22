@@ -307,9 +307,9 @@
   /* barra fixa do celular */
   .mobile-bar{display:none}
 
-  /* revelar ao rolar */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s, transform .7s cubic-bezier(.2,.8,.2,1)}
-  .reveal.in{opacity:1;transform:none}
+  /* entrada suave dos blocos (sem depender de JavaScript) */
+  .reveal{animation:up .7s cubic-bezier(.2,.8,.2,1) backwards}
+  @keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 
   /* ---------- MOBILE (90% do público) ---------- */
   @media (max-width:760px){
@@ -351,7 +351,6 @@
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
-    .reveal{opacity:1;transform:none}
   }
 </style>
 </head>
@@ -414,7 +413,7 @@
   <!-- SÉRIES -->
   <section id="series">
     <div class="container">
-      <div class="sec-title reveal"><span class="num">01</span><h2>Séries</h2></div>
+      <div class="sec-title"><span class="num">01</span><h2>Séries</h2></div>
       <div class="grid" id="series-grid"></div>
     </div>
   </section>
@@ -422,10 +421,10 @@
   <!-- PERSONAGENS -->
   <section id="personagens">
     <div class="container">
-      <div class="sec-title reveal"><span class="num">02</span><h2>Personagens</h2></div>
+      <div class="sec-title"><span class="num">02</span><h2>Personagens</h2></div>
       <div class="grid" id="chars-grid"></div>
 
-      <div class="sec-title reveal" style="margin-top:50px"><span class="num">03</span><h2>Pets</h2></div>
+      <div class="sec-title" style="margin-top:50px"><span class="num">03</span><h2>Pets</h2></div>
       <div class="grid" id="pets-grid"></div>
     </div>
   </section>
@@ -433,9 +432,9 @@
   <!-- ARMAS -->
   <section id="armas">
     <div class="container">
-      <div class="sec-title reveal"><span class="num">04</span><h2>Armas</h2></div>
+      <div class="sec-title"><span class="num">04</span><h2>Armas</h2></div>
       <div class="grid" id="weapons-grid"></div>
-      <p class="reveal" style="color:var(--muted);font-size:.88rem;margin-top:20px;text-align:center">
+      <p style="color:var(--muted);font-size:.88rem;margin-top:20px;text-align:center">
         Modo <b style="color:var(--silver)">FULL UMP</b>: a arma principal é a <b style="color:var(--silver)">UMP</b>.
         No primeiro round, é permitido usar <b style="color:var(--silver)">Desert Eagle</b> e <b style="color:var(--silver)">Mini Uzi</b> para correr.
       </p>
@@ -445,14 +444,14 @@
   <!-- REGRAS -->
   <section id="regras" class="rules">
     <div class="container">
-      <div class="sec-title reveal"><span class="num">05</span><h2>Regulamento</h2></div>
-      <div class="toolbar reveal">
+      <div class="sec-title"><span class="num">05</span><h2>Regulamento</h2></div>
+      <div class="toolbar">
         <input class="search" id="search" type="search" placeholder="Buscar nas regras (ex: recriação, W.O., 0x0)...">
         <button class="ghost" id="toggle-all">Abrir todas</button>
       </div>
       <div id="rules-list"></div>
 
-      <div class="cta-box reveal">
+      <div class="cta-box">
         <h2>Pronto para jogar?</h2>
         <p>Entre no Discord oficial, acompanhe os sorteios e fique por dentro de tudo.</p>
         <a class="btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
@@ -628,16 +627,6 @@ for (let i = 0; i < 14; i++){
   suitsEl.appendChild(s);
 }
 
-// Revelar seções ao rolar (precisa vir ANTES das renderizações)
-const io = new IntersectionObserver(entries => {
-  entries.forEach(en => {
-    if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
-  });
-}, { threshold: 0.12 });
-function observeReveal(){
-  document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el));
-}
-
 // Imagem de personagem, pet ou arma. Se faltar o arquivo, mostra "FOTO EM BREVE"
 function thumb(file, nome, folder, ext = "svg"){
   return `<div class="thumb">
@@ -697,7 +686,7 @@ function renderRules(filter=""){
     const shown = (f && !titleMatch) ? items : sec.items;
     const extra = sec.extra ? `<div class="${sec.extra.type}">${sec.extra.text}</div>` : "";
     return `
-    <details ${f ? "open" : ""} class="reveal">
+    <details ${f ? "open" : ""}>
       <summary>
         <span class="left"><span class="num">${String(i+1).padStart(2,"0")}</span>${sec.t}</span>
       </summary>
@@ -708,7 +697,6 @@ function renderRules(filter=""){
     </details>`;
   }).join("");
   list.innerHTML = html || `<p style="color:var(--muted);text-align:center;padding:30px 0">Nada encontrado. Tente outra palavra.</p>`;
-  observeReveal();
 }
 renderRules();
 document.getElementById("search").addEventListener("input", e => renderRules(e.target.value));
@@ -729,9 +717,6 @@ document.addEventListener("pointermove", e => {
   card.style.setProperty("--mx", (e.clientX - r.left) + "px");
   card.style.setProperty("--my", (e.clientY - r.top) + "px");
 });
-
-// Revela as seções fixas (títulos e cards de séries/personagens/armas)
-observeReveal();
 </script>
 </body>
 </html>
