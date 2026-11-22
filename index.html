@@ -406,7 +406,7 @@
 <header>
   <div class="container nav">
     <a href="#inicio" class="brand">
-      <img src="img/logo.jpg" alt="Logo BH Revela" onload="cleanWhite(this)" onerror="this.style.display='none'">
+      <img src="img/logo.jpg" alt="Logo BH Revela" onerror="this.style.display='none'">
       <span>BH REVELA</span>
     </a>
     <nav class="menu">
@@ -430,7 +430,7 @@
 
     <div class="container">
       <div class="logo-wrap">
-        <img class="hero-logo" src="img/logo.jpg" alt="Logo BH Revela" onload="cleanWhite(this)" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img class="hero-logo" src="img/logo.jpg" alt="Logo BH Revela" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="hero-fallback">BH REVELA</div>
       </div>
 
@@ -553,7 +553,7 @@ const SERIES = [
   ]}
 ];
 
-/* Personagens e pets: arquivos em img/personagens/ com estes nomes (minúsculas) */
+/* Personagens e pets: arquivos PNG em img/personagens/ com estes nomes (minúsculas) */
 const CHARS = ["Alok", "Kelly", "Moco", "Maxim"];
 const PETS  = [
   { nome: "Tigrinho", file: "tigrinho" },
@@ -566,6 +566,9 @@ const WEAPONS = [
   { nome: "Desert Eagle", file: "desert-eagle", tag: "Só no 1º round" },
   { nome: "Mini Uzi", file: "mini-uzi", tag: "Só no 1º round (correr)" }
 ];
+
+/* Quais imagens recebem a remoção de fundo (só estas três) */
+const LIMPAR_FUNDO = ["moco", "tigrinho", "maxim"];
 
 /* Regulamento */
 const RULES = [
@@ -681,9 +684,9 @@ const RULES = [
    RENDERIZAÇÃO (não precisa mexer daqui pra baixo)
    ============================================================ */
 
-// Remove o fundo da imagem (branco, cinza ou degradê parecido com a cor das bordas).
-// Só apaga o que está ligado às bordas, então o personagem é preservado.
-function cleanWhite(img){
+// Remove o fundo da imagem, apagando só o que está ligado às bordas.
+// Usada apenas nas imagens listadas em LIMPAR_FUNDO.
+function cleanBackground(img){
   if (img.dataset.cleaned) return;
   img.dataset.cleaned = "1";
   const w = img.naturalWidth || 400;
@@ -696,7 +699,7 @@ function cleanWhite(img){
     const id = ctx.getImageData(0, 0, w, h);
     const d = id.data;
 
-    // Lista os pixels da borda e calcula a cor média do fundo
+    // Pixels da borda e cor média do fundo
     const border = [];
     for (let x = 0; x < w; x++){ border.push((h-1)*w + x); border.push(x); }
     for (let y = 0; y < h; y++){ border.push(y*w); border.push(y*w + w - 1); }
@@ -710,7 +713,7 @@ function cleanWhite(img){
     const ar = sr/n, ag = sg/n, ab = sb/n;
 
     const T_BG = 110;    // diferença máxima em relação à cor média do fundo
-    const T_VIZ = 40;    // diferença máxima entre pixels vizinhos (acompanha o degradê)
+    const T_VIZ = 40;    // diferença máxima entre vizinhos (acompanha degradês)
 
     const done = new Uint8Array(w*h);
     const stack = [];
@@ -761,11 +764,12 @@ for (let i = 0; i < 14; i++){
   suitsEl.appendChild(s);
 }
 
-// Imagem de personagem, pet ou arma. Tira o fundo de qualquer imagem.
-// Se faltar o arquivo, mostra "FOTO EM BREVE".
+// Imagem de personagem, pet ou arma. Se faltar o arquivo, mostra "FOTO EM BREVE".
+// Só recebe a remoção de fundo se o nome estiver em LIMPAR_FUNDO.
 function thumb(file, nome, folder, ext = "svg"){
+  const limpar = LIMPAR_FUNDO.includes(file) ? ' onload="cleanBackground(this)"' : "";
   return `<div class="thumb">
-    <img src="img/${folder}/${file}.${ext}" alt="${nome}" loading="lazy" onload="cleanWhite(this)"
+    <img src="img/${folder}/${file}.${ext}" alt="${nome}" loading="lazy"${limpar}
       onerror="this.remove();this.parentElement.insertAdjacentHTML('beforeend','<span class=&quot;ph&quot;>FOTO EM BREVE</span>')">
   </div>`;
 }
