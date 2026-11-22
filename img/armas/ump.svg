@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<defs>
+<linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#a9b6d1"/><stop offset="1" stop-color="#3b4766"/></linearGradient>
+<linearGradient id="dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c3857"/><stop offset="1" stop-color="#0a0f1e"/></linearGradient>
+<linearGradient id="neon" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1f6fff"/><stop offset="1" stop-color="#7fe0ff"/></linearGradient>
+<filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<ellipse cx="200" cy="232" rx="150" ry="10" fill="#000" opacity=".5"/>
+<!-- coronha -->
+<path d="M28 124 Q40 112 80 116 L122 124 L124 170 Q104 178 70 178 Q40 176 30 160 Z" fill="url(#dark)" stroke="#7fe0ff" stroke-width="2"/>
+<path d="M36 132 L110 140" stroke="#4fc3ff" stroke-width="2" opacity=".5"/>
+<!-- corpo -->
+<path d="M116 108 Q118 100 128 100 L284 100 Q292 100 292 110 L292 146 Q292 156 282 156 L124 156 Q116 156 116 146 Z" fill="url(#metal)" stroke="#1f2a44" stroke-width="2"/>
+<rect x="124" y="114" width="150" height="6" rx="3" fill="url(#neon)" filter="url(#glow)"/>
+<rect x="150" y="124" width="60" height="4" rx="2" fill="#1f2a44" opacity=".5"/>
+<!-- mira -->
+<rect x="150" y="84" width="48" height="16" rx="3" fill="url(#dark)" stroke="#7fe0ff" stroke-width="1.5"/>
+<rect x="156" y="88" width="36" height="3" fill="#7fe0ff" filter="url(#glow)"/>
+<!-- cano -->
+<rect x="288" y="118" width="88" height="20" rx="4" fill="url(#dark)" stroke="#4fc3ff" stroke-width="1.5"/>
+<rect x="290" y="121" width="80" height="3" fill="#ffffff" opacity=".35"/>
+<rect x="364" y="114" width="14" height="28" rx="3" fill="#0a0f1e" stroke="#4fc3ff" stroke-width="1.5"/>
+<!-- pegada frontal -->
+<path d="M182 156 L212 156 L218 186 L190 186 Z" fill="url(#dark)" stroke="#4fc3ff" stroke-width="1.5"/>
+<!-- carregador -->
+<path d="M168 156 L200 156 L206 238 Q206 246 196 246 L176 246 Q166 246 166 238 Z" fill="url(#dark)" stroke="#4fc3ff" stroke-width="2"/>
+<path d="M172 170 L200 170 M172 184 L200 184 M172 198 L200 198 M172 212 L201 212" stroke="#4fc3ff" stroke-width="1" opacity=".35"/>
+<!-- gatilho e empunhadura -->
+<path d="M132 156 L160 156 L152 206 Q148 214 138 210 L130 186 Z" fill="url(#dark)" stroke="#4fc3ff" stroke-width="2"/>
+<path d="M134 160 Q142 170 128 178" fill="none" stroke="#4fc3ff" stroke-width="2"/>
+</svg>
