@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>BH Sorteado Revela</title>
+<meta name="description" content="Regras, séries, personagens e armas do BH Sorteado Revela. Entre no nosso Discord!">
+<meta name="theme-color" content="#03050b">
+<link rel="icon" href="img/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#03050b;
+    --panel:#0a1226;
+    --panel2:#0d1a36;
+    --blue:#1f6fff;
+    --blue-dark:#0a3fb0;
+    --cyan:#4fc3ff;
+    --silver:#e6ebf4;
+    --muted:#8d99b3;
+    --line:rgba(79,195,255,.18);
+    --glass:rgba(13,26,54,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--silver);
+    background:var(--bg);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  a{color:var(--cyan)}
+  h1,h2,h3{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-weight:400}
+  .container{width:min(1100px,92%);margin:0 auto;position:relative;z-index:2}
+
+  /* ---------- FUNDO ANIMADO ---------- */
+  .bg-glow{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(800px 500px at 15% 0%, rgba(31,111,255,.28), transparent 60%),
+      radial-gradient(700px 500px at 90% 30%, rgba(79,195,255,.14), transparent 60%),
+      radial-gradient(900px 600px at 50% 110%, rgba(31,111,255,.22), transparent 60%);
+    animation:drift 14s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{transform:translate(0,0) scale(1)}
+    100%{transform:translate(-3%,2%) scale(1.06)}
+  }
+  .suits{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+  .suits span{
+    position:absolute;bottom:-60px;color:rgba(79,195,255,.12);
+    font-size:var(--s,30px);animation:rise var(--d,18s) linear infinite;animation-delay:var(--delay,0s);
+  }
+  @keyframes rise{
+    0%{transform:translateY(0) rotate(0deg);opacity:0}
+    10%{opacity:1}
+    90%{opacity:1}
+    100%{transform:translateY(-110vh) rotate(360deg);opacity:0}
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(3,5,11,.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--silver)}
+  .brand img{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 0 16px rgba(31,111,255,.6)}
+  .brand span{font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:2px}
+  .menu{display:flex;gap:20px;align-items:center}
+  .menu a:not(.btn-discord){color:var(--silver);text-decoration:none;font-weight:600;font-size:.92rem;opacity:.8;transition:.2s}
+  .menu a:not(.btn-discord):hover{color:var(--cyan);opacity:1}
+
+  /* ---------- BOTÕES ---------- */
+  .btn-discord{
+    position:relative;overflow:hidden;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(135deg,#3b8bff,var(--blue-dark));
+    color:#fff;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;
+    padding:15px 28px;border-radius:16px;white-space:nowrap;
+    box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 10px 30px -5px rgba(31,111,255,.8);
+    transition:transform .25s, box-shadow .25s;
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  .btn-discord::after{
+    content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.45),transparent);
+    transform:skewX(-20deg);animation:shine 3.2s ease-in-out infinite;
+  }
+  @keyframes shine{0%,60%{left:-120%}100%{left:160%}}
+  .btn-discord:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 16px 45px -4px rgba(79,195,255,.95)}
+  .btn-discord.small{padding:9px 16px;font-size:.78rem;animation:none;border-radius:11px}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 10px 26px -6px rgba(31,111,255,.7)}
+    50%{box-shadow:0 0 0 1px rgba(255,255,255,.22) inset,0 14px 44px -4px rgba(79,195,255,1)}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:56px 0 50px;text-align:center;position:relative}
+  .hero-cards{position:absolute;inset:0;pointer-events:none;z-index:-1}
+  .ace{
+    position:absolute;top:50%;width:150px;height:210px;margin-top:-105px;
+    border-radius:18px;background:linear-gradient(160deg,#f5f8ff,#b9c4d8 55%,#8d99b3);
+    box-shadow:0 0 0 4px #0a1226,0 0 60px rgba(79,195,255,.45);
+    display:flex;flex-direction:column;justify-content:space-between;padding:14px;
+    color:#0a1226;font-family:'Bebas Neue';font-size:2.4rem;opacity:.22;
+    filter:saturate(.9);
+  }
+  .ace.l{left:2%;transform:rotate(-16deg);animation:float1 7s ease-in-out infinite}
+  .ace.r{right:2%;transform:rotate(16deg);animation:float2 7s ease-in-out infinite}
+  .ace .sym{font-size:4rem;line-height:1;text-align:center;font-family:Arial,sans-serif}
+  .ace .corner{line-height:1}
+  .ace .corner.bot{align-self:flex-end;transform:rotate(180deg)}
+  @keyframes float1{0%,100%{transform:rotate(-16deg) translateY(0)}50%{transform:rotate(-12deg) translateY(-14px)}}
+  @keyframes float2{0%,100%{transform:rotate(16deg) translateY(0)}50%{transform:rotate(12deg) translateY(-14px)}}
+
+  .logo-wrap{
+    position:relative;width:min(250px,60vw);aspect-ratio:1;margin:0 auto 26px;
+    animation:enter 1s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .logo-wrap::before{
+    content:"";position:absolute;inset:-6px;border-radius:30px;
+    background:conic-gradient(from 0deg,var(--cyan),var(--blue),#fff,var(--blue),var(--cyan));
+    animation:spin 6s linear infinite;filter:blur(12px);opacity:.75;
+  }
+  .hero-logo{
+    position:relative;width:100%;height:100%;border-radius:24px;object-fit:cover;
+    border:1px solid rgba(255,255,255,.12);
+  }
+  .hero-fallback{
+    position:relative;width:100%;height:100%;border-radius:24px;
+    display:none;align-items:center;justify-content:center;
+    font-family:'Bebas Neue';font-size:3.6rem;letter-spacing:4px;
+    background:linear-gradient(160deg,#1f6fff,#03050b);
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes enter{from{opacity:0;transform:translateY(20px) scale(.92)}to{opacity:1;transform:none}}
+
+  .eyebrow{
+    display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;
+    color:var(--cyan);border:1px solid var(--line);background:rgba(79,195,255,.06);
+    padding:6px 14px;border-radius:999px;margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem,8vw,5.2rem);line-height:.95;
+    animation:enter 1s .15s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(90deg,#fff,var(--cyan),var(--blue),#fff);background-size:300% auto;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:sheen 5s linear infinite;
+  }
+  @keyframes sheen{to{background-position:300% center}}
+  .hero p.lead{
+    color:var(--muted);max-width:600px;margin:18px auto 30px;font-size:1.05rem;
+    animation:enter 1s .3s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .hero .btn-discord{font-size:1.05rem;padding:19px 38px;animation:pulse 2.4s ease-in-out infinite, enter 1s .45s both}
+  .hero .sub{margin-top:14px;font-size:.82rem;color:var(--muted)}
+
+  .alert{
+    margin:30px auto 0;max-width:680px;padding:14px 18px;border-radius:14px;
+    background:rgba(255,70,70,.07);border:1px solid rgba(255,90,90,.35);
+    color:#ffb3b3;font-size:.9rem;text-align:center;
+  }
+
+  /* ---------- CHIPS DE NAVEGAÇÃO ---------- */
+  .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:8px}
+  .chips a{
+    text-decoration:none;color:var(--silver);font-weight:700;font-size:.85rem;
+    padding:9px 16px;border-radius:999px;background:var(--glass);border:1px solid var(--line);
+    backdrop-filter:blur(8px);transition:.2s;
+  }
+  .chips a:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+
+  /* ---------- SEÇÕES ---------- */
+  section{padding:56px 0}
+  .sec-title{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+  .sec-title .num{
+    font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:var(--blue);
+    border:1px solid var(--line);padding:4px 10px;border-radius:8px;
+  }
+  .sec-title h2{font-size:clamp(2.1rem,5vw,3rem)}
+  .sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px}
+  .card{
+    position:relative;overflow:hidden;
+    background:linear-gradient(160deg,rgba(13,26,54,.9),rgba(10,18,38,.9));
+    border:1px solid var(--line);border-radius:20px;padding:18px;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s, box-shadow .3s;
+  }
+  .card::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(300px 200px at var(--mx,50%) var(--my,0%),rgba(79,195,255,.18),transparent 60%);
+    opacity:0;transition:opacity .3s;
+  }
+  .card:hover{transform:translateY(-6px);border-color:rgba(79,195,255,.6);box-shadow:0 18px 40px -10px rgba(31,111,255,.45)}
+  .card:hover::after{opacity:1}
+
+  .thumb{
+    aspect-ratio:4/3;border-radius:14px;overflow:hidden;margin-bottom:14px;
+    background:radial-gradient(circle at 50% 30%,rgba(31,111,255,.4),#050912 72%);
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid rgba(255,255,255,.06);position:relative;
+  }
+  .thumb img{width:100%;height:100%;object-fit:contain;padding:10px;transition:transform .4s}
+  .card:hover .thumb img{transform:scale(1.08)}
+  .thumb .ph{font-family:'Bebas Neue';font-size:1.3rem;color:var(--muted);letter-spacing:2px;text-align:center}
+  .thumb-cat{font-size:.68rem;color:var(--cyan);text-transform:uppercase;letter-spacing:2.5px;font-weight:800;margin-bottom:2px}
+  .thumb-name{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:.95rem}
+
+  /* séries */
+  .serie .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .serie .badge{
+    font-size:.66rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;
+    padding:5px 11px;border-radius:999px;background:rgba(79,195,255,.12);color:var(--cyan);
+  }
+  .serie .suit{font-size:1.8rem;color:rgba(79,195,255,.25)}
+  .serie h3{font-size:1.9rem;margin-bottom:6px}
+  .serie p{color:var(--muted);font-size:.9rem}
+  .serie .status{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);font-weight:700}
+  .serie .status b{color:#7dffb0}
+  .serie .status b.off{color:#ff9d9d}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7dffb0;box-shadow:0 0 10px #7dffb0;margin-right:6px;animation:blink 1.6s infinite}
+  .dot.off{background:#ff9d9d;box-shadow:0 0 10px #ff9d9d;animation:none}
+  @keyframes blink{50%{opacity:.35}}
+
+  /* regras */
+  .rules details{
+    background:linear-gradient(160deg,rgba(13,26,54,.85),rgba(10,18,38,.85));
+    border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden;
+    transition:border-color .3s;
+  }
+  .rules details[open]{border-color:rgba(79,195,255,.5)}
+  .rules summary{
+    cursor:pointer;list-style:none;padding:17px 20px;font-weight:800;font-size:1rem;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .rules summary::-webkit-details-marker{display:none}
+  .rules summary .left{display:flex;align-items:center;gap:14px}
+  .rules summary .num{
+    font-family:'Bebas Neue';font-size:1.2rem;color:var(--cyan);
+    min-width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;
+    border-radius:10px;background:rgba(79,195,255,.1);
+  }
+  .rules summary::after{
+    content:"";width:12px;height:12px;flex:0 0 12px;
+    border-right:2px solid var(--cyan);border-bottom:2px solid var(--cyan);
+    transform:rotate(45deg) translate(-3px,-3px);transition:transform .3s;
+  }
+  .rules details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+  .rules .body{padding:0 20px 20px 70px;color:#c9d2e6;font-size:.94rem}
+  .rules .body ul{list-style:none}
+  .rules .body li{position:relative;padding-left:18px;margin-bottom:9px}
+  .rules .body li::before{content:"♠";position:absolute;left:0;top:0;color:var(--cyan);font-size:.8rem}
+  .rules .highlight{
+    margin-top:12px;padding:12px 14px;border-radius:12px;
+    background:rgba(79,195,255,.07);border-left:3px solid var(--cyan);
+  }
+  .rules .highlight a{font-weight:700}
+  .rules .warn{
+    margin-top:12px;padding:12px 14px;border-radius:12px;
+    background:rgba(255,90,90,.08);border-left:3px solid #ff7a7a;color:#ffd0d0;
+  }
+  .toolbar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+  .search{
+    flex:1;min-width:220px;padding:15px 18px;border-radius:14px;
+    background:rgba(10,18,38,.8);border:1px solid var(--line);color:var(--silver);font-size:1rem;outline:none;
+    font-family:inherit;transition:.2s;
+  }
+  .search::placeholder{color:#5d6883}
+  .search:focus{border-color:var(--cyan);box-shadow:0 0 0 4px rgba(79,195,255,.12)}
+  .ghost{
+    padding:15px 18px;border-radius:14px;background:transparent;border:1px solid var(--line);
+    color:var(--silver);font-weight:700;font-family:inherit;cursor:pointer;transition:.2s;
+  }
+  .ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+  /* CTA final */
+  .cta-box{
+    position:relative;overflow:hidden;text-align:center;padding:50px 24px;border-radius:28px;
+    background:linear-gradient(160deg,#0d1a36,#050912);
+    border:1px solid var(--line);margin-top:34px;
+  }
+  .cta-box::before{
+    content:"";position:absolute;inset:-50%;
+    background:conic-gradient(from 0deg,transparent,rgba(79,195,255,.25),transparent 30%);
+    animation:spin 10s linear infinite;
+  }
+  .cta-box > *{position:relative}
+  .cta-box h2{font-size:clamp(2.2rem,6vw,3.4rem);margin-bottom:8px}
+  .cta-box p{color:var(--muted);margin-bottom:26px}
+
+  footer{
+    position:relative;z-index:2;border-top:1px solid var(--line);
+    padding:34px 0 110px;text-align:center;color:var(--muted);font-size:.85rem;
+  }
+  footer .btn-discord{margin-bottom:18px}
+
+  /* barra fixa do celular */
+  .mobile-bar{display:none}
+
+  /* revelar ao rolar */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s, transform .7s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- MOBILE (90% do público) ---------- */
+  @media (max-width:760px){
+    .menu a:not(.btn-discord){display:none}
+    .brand span{font-size:1.3rem}
+    .hero{padding:34px 0 30px}
+    section{padding:40px 0}
+    .ace{width:90px;height:128px;margin-top:-64px;font-size:1.4rem;box-shadow:0 0 0 3px #0a1226}
+    .ace .sym{font-size:2.4rem}
+    .ace.l{left:-14px}
+    .ace.r{right:-14px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+    .card{padding:13px;border-radius:16px}
+    .thumb{margin-bottom:10px;border-radius:12px}
+    .thumb-name{font-size:.82rem}
+    .hero .btn-discord{width:100%;font-size:.98rem;padding:17px}
+    .btn-discord:not(.small){width:100%}
+    .menu .btn-discord{width:auto}
+    .rules .body{padding:0 18px 18px 18px}
+    .rules summary .num{min-width:30px;height:30px;font-size:1rem}
+    .toolbar .ghost{width:100%}
+    .chips a{font-size:.8rem;padding:8px 13px}
+    .serie h3{font-size:1.6rem}
+    .mobile-bar{
+      display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
+      z-index:60;padding:10px;border-radius:20px;
+      background:rgba(5,9,20,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.6);
+      align-items:center;gap:10px;
+    }
+    .mobile-bar .txt{flex:0 0 auto;font-size:.72rem;line-height:1.2;color:var(--muted);padding-left:6px}
+    .mobile-bar .txt b{display:block;color:var(--silver);font-size:.82rem;font-family:'Bebas Neue';letter-spacing:1.5px;font-weight:400}
+    .mobile-bar .btn-discord{flex:1;padding:13px 10px;font-size:.78rem;animation:none;border-radius:14px}
+    .mobile-bar .btn-discord::after{display:none}
+  }
+  @media (max-width:360px){
+    .grid{grid-template-columns:1fr}
+    .mobile-bar .txt{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="suits" id="suits"></div>
+
+<header>
+  <div class="container nav">
+    <a href="#inicio" class="brand">
+      <img src="img/logo.jpg" alt="Logo BH Revela" onerror="this.style.display='none'">
+      <span>BH REVELA</span>
+    </a>
+    <nav class="menu">
+      <a href="#series">Séries</a>
+      <a href="#personagens">Personagens</a>
+      <a href="#armas">Armas</a>
+      <a href="#regras">Regras</a>
+      <a href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener" class="btn-discord small">Entrar no Discord</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero" id="inicio">
+    <div class="hero-cards" aria-hidden="true">
+      <div class="ace l"><span class="corner">A</span><span class="sym">♠</span><span class="corner bot">A</span></div>
+      <div class="ace r"><span class="corner">A</span><span class="sym">♠</span><span class="corner bot">A</span></div>
+    </div>
+
+    <div class="container">
+      <div class="logo-wrap">
+        <img class="hero-logo" src="img/logo.jpg" alt="Logo BH Revela" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="hero-fallback">BH REVELA</div>
+      </div>
+
+      <span class="eyebrow">♠ Filas · Sorteios · FULL UMP</span>
+      <h1>Seja bem-vindo ao<br><span class="grad">Sorteado BH Revela</span></h1>
+      <p class="lead">Partidas organizadas, sorteios transparentes e regras claras. Veja as séries, confira o regulamento e entre na nossa comunidade.</p>
+
+      <a class="btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">
+        ♠ Entrar no Discord agora
+      </a>
+      <p class="sub">Entrada exclusiva para maiores de 18 anos</p>
+
+      <div class="chips" style="margin-top:30px">
+        <a href="#series">Séries</a>
+        <a href="#personagens">Personagens</a>
+        <a href="#armas">Armas</a>
+        <a href="#regras">Regulamento</a>
+      </div>
+
+      <div class="alert">⚠️ Participação proibida para menores de 18 anos. Ao entrar, você declara ter 18 anos ou mais.</div>
+    </div>
+  </div>
+
+  <!-- SÉRIES -->
+  <section id="series">
+    <div class="container">
+      <div class="sec-title reveal"><span class="num">01</span><h2>Séries</h2></div>
+      <div class="grid" id="series-grid"></div>
+    </div>
+  </section>
+
+  <!-- PERSONAGENS -->
+  <section id="personagens">
+    <div class="container">
+      <div class="sec-title reveal"><span class="num">02</span><h2>Personagens</h2></div>
+      <div class="grid" id="chars-grid"></div>
+
+      <div class="sec-title reveal" style="margin-top:50px"><span class="num">03</span><h2>Pets</h2></div>
+      <div class="grid" id="pets-grid"></div>
+    </div>
+  </section>
+
+  <!-- ARMAS -->
+  <section id="armas">
+    <div class="container">
+      <div class="sec-title reveal"><span class="num">04</span><h2>Armas</h2></div>
+      <div class="grid" id="weapons-grid"></div>
+      <p class="reveal" style="color:var(--muted);font-size:.88rem;margin-top:20px;text-align:center">
+        Modo <b style="color:var(--silver)">FULL UMP</b>: a arma principal é a <b style="color:var(--silver)">UMP</b>.
+        No primeiro round, é permitido usar <b style="color:var(--silver)">Desert Eagle</b> e <b style="color:var(--silver)">Mini Uzi</b> para correr.
+      </p>
+    </div>
+  </section>
+
+  <!-- REGRAS -->
+  <section id="regras" class="rules">
+    <div class="container">
+      <div class="sec-title reveal"><span class="num">05</span><h2>Regulamento</h2></div>
+      <div class="toolbar reveal">
+        <input class="search" id="search" type="search" placeholder="Buscar nas regras (ex: recriação, W.O., 0x0)...">
+        <button class="ghost" id="toggle-all">Abrir todas</button>
+      </div>
+      <div id="rules-list"></div>
+
+      <div class="cta-box reveal">
+        <h2>Pronto para jogar?</h2>
+        <p>Entre no Discord oficial, acompanhe os sorteios e fique por dentro de tudo.</p>
+        <a class="btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <a class="btn-discord small" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">Discord oficial</a>
+    <p>© BH Sorteado Revela · Proibido para menores de 18 anos</p>
+  </div>
+</footer>
+
+<!-- barra fixa no celular -->
+<div class="mobile-bar">
+  <div class="txt"><b>BH REVELA</b>Sorteios e filas</div>
+  <a class="btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
+</div>
+
+<script>
+/* ============================================================
+   EDITE AQUI: séries (troque pelos nomes e status reais)
+   aberta: true = aberta | false = fechada
+   ============================================================ */
+const SERIES = [
+  { nome: "Série A", faixa: "Nível 25+", desc: "Partidas FULL UMP com pareamento por série.", aberta: true },
+  { nome: "Série B", faixa: "Nível 25+", desc: "Partidas FULL UMP com pareamento por série.", aberta: true },
+  { nome: "Série C", faixa: "Nível 25+", desc: "Partidas FULL UMP com pareamento por série.", aberta: false },
+  { nome: "Série D", faixa: "Nível 25+", desc: "Partidas FULL UMP com pareamento por série.", aberta: false }
+];
+
+/* Personagens e pets: arquivos PNG em img/personagens/ com estes nomes (minúsculas) */
+const CHARS = ["Alok", "Kelly", "Moco", "Maxim"];
+const PETS  = [
+  { nome: "Tigrinho", file: "tigrinho" },
+  { nome: "Pet de Gel (Pinguim)", file: "pinguim" }
+];
+
+/* Armas: arquivos SVG em img/armas/ com estes nomes */
+const WEAPONS = [
+  { nome: "UMP", file: "ump", tag: "Arma principal" },
+  { nome: "Desert Eagle", file: "desert-eagle", tag: "Só no 1º round" },
+  { nome: "Mini Uzi", file: "mini-uzi", tag: "Só no 1º round (correr)" }
+];
+
+/* Regulamento */
+const RULES = [
+  { t: "Disposições gerais", items: [
+    "A participação nas filas implica a leitura e aceitação integral deste regulamento.",
+    "É proibida a participação de menores de 18 anos em qualquer fila, partida ou atividade oficial.",
+    "Os participantes devem possuir conta de nível 25 ou superior.",
+    "O Replay deverá permanecer ativo durante as partidas.",
+    "Jogadores na Black List Android/iOS deverão gravar todos os rounds.",
+    "Relogar durante ou após a partida resulta em W.O.",
+    "O jogador é responsável por conferir a própria equipe antes do início da partida.",
+    "O desconhecimento do regulamento não isenta ninguém das penalidades."
+  ]},
+  { t: "Regras do modo FULL UMP", items: [
+    "As partidas são realizadas no modo FULL UMP.",
+    "Personagens permitidos: Alok, Kelly, Moco e Maxim.",
+    "Pets permitidos: Tigrinho e Pet de gel (Pinguim).",
+    "No primeiro round é permitido usar Desert Eagle e Mini Uzi para correr.",
+    "Uso irregular de personagem ou pet deverá ser comunicado dentro do prazo do regulamento."
+  ]},
+  { t: "Filas, sorteios e pareamento", items: [
+    "O pareamento é feito de acordo com as séries dos jogadores.",
+    "Jogadores novatos só recebem vantagens se o ADM responsável considerar necessário.",
+    "Entre na fila somente quando tiver disponibilidade para jogar.",
+    "Após o sorteio não há reembolso por desistência ou indisponibilidade."
+  ], extra: { type: "highlight", text: "<b>Procedimento do sorteio:</b> o ADM grava a tela saindo do WhatsApp, escreve a palavra \"SORTEANDO\" e envia o registro no grupo antes de iniciar a roleta. Sem esse procedimento, o sorteio não é válido." }},
+  { t: "Entrada na sala", items: [
+    "Após o envio do ID e da senha, os jogadores têm até 4 minutos para entrar na sala.",
+    "Ultrapassando 5 minutos, o time adversário pode receber 1 round, ou o time atrasado pode pagar R$ 1,50 para recriação.",
+    "O pagamento deve ser feito em até 8 minutos, senão será aplicado W.O. individual.",
+    "Se o jogador não entrar na sala até 8 minutos, será aplicado W.O. individual.",
+    "Os demais participantes podem receber reembolso, exceto o jogador ausente."
+  ]},
+  { t: "Recriações e rounds", items: [
+    "Cada equipe tem direito a uma recriação gratuita, usável a qualquer momento.",
+    "A partir da segunda recriação, será cobrado R$ 1,50.",
+    "Cada equipe tem uma oportunidade para quitar a partida. Depois disso, deve pagar R$ 1,50 ou conceder 1 round ao adversário.",
+    "Round solicitado por quebra de regra só é validado se a equipe que solicitou perder aquele round.",
+    "Se ambos os times concordarem, a partida pode ser recriada em 0x0.",
+    "Sem acordo entre as equipes, somente em situações extremas o ADM decide por recriação em 0x0 ou reembolso.",
+    "A recriação deve ser feita na mesma conta utilizada anteriormente.",
+    "Se o jogador relogar e ficar sem o 0x0, não é obrigatório apresentar o 0x0 da partida refeita. Isso não anula a regra de W.O. por relogar."
+  ]},
+  { t: "Comprovação do 0x0", items: [
+    "O 0x0 é obrigatório e deve ser comprovado por print do replay pausado.",
+    "A imagem deve mostrar: replay pausado, placar aberto e kills visíveis na barra inferior.",
+    "O vencedor deve enviar a comprovação ao ADM após cada partida, em até 5 minutos após o término.",
+    "O adversário tem até 3 minutos após o término para solicitar o 0x0.",
+    "Sem envio dentro do prazo, a partida deve ser recriada em 0x0."
+  ]},
+  { t: "Quedas e problemas de conexão", items: [
+    "Em queda de conexão com grande diferença no placar, a partida pode ser recriada se o jogador retornar em até 4 minutos.",
+    "O jogador deve comprovar a queda por gravação de tela ou print.",
+    "Se não retornar no prazo, a partida continua normalmente.",
+    "A partida pode continuar mesmo em situações de 2v1 ou 3v2."
+  ]},
+  { t: "Erros de equipe e irregularidades", items: [
+    "Cada equipe é responsável por conferir seus próprios jogadores antes e durante a partida.",
+    "Após 2 rounds disputados, não é permitida recriação por erro de formação ou conferência.",
+    "Personagem ou pet irregular deve ser comunicado em até 2 rounds. Depois, a reclamação não é considerada.",
+    "Cada round disputado com personagem ou pet irregular vira round vencido para o adversário.",
+    "Recriação por essa irregularidade custa R$ 0,50 adicionais."
+  ]},
+  { t: "W.O., ausências e reembolsos", items: [
+    "A ausência de um jogador pode resultar em W.O. individual.",
+    "O jogador que não comparecer não tem direito a reembolso.",
+    "Os demais participantes podem receber reembolso, conforme avaliação da administração.",
+    "Relogar durante ou após a partida resulta em W.O.",
+    "Recusar uma solicitação válida de análise resulta em W.O.",
+    "Entregar partida de propósito pode resultar em W.O. individual.",
+    "As penalidades são definitivas, salvo erro comprovado na aplicação."
+  ]},
+  { t: "Conduta dos participantes", items: [
+    "Manter conduta adequada durante filas, partidas e atendimentos.",
+    "Respeitar adversários, administradores e demais integrantes.",
+    "Apresentar provas sempre que possível.",
+    "Comunicar qualquer irregularidade assim que identificada.",
+    "Se o round já foi disputado, a administração avalia a penalidade ou necessidade de recriação.",
+    "No último round, a administração pode aplicar W.O. conforme a gravidade e as provas."
+  ]},
+  { t: "Regras de análise", items: [
+    "As regras de análise de tela, replay, dispositivos Android/iOS, emuladores, suspeitas de hack e procedimentos técnicos estão no regulamento de análise do Discord.",
+    "Participar das filas implica ciência de que o jogador pode ser submetido a esses procedimentos."
+  ], extra: { type: "highlight", text: '<b>Canal oficial de análise:</b> <a href="https://discord.com/channels/915697060550950932/1543976094187655340" target="_blank" rel="noopener">clique aqui</a>' }},
+  { t: "Streamers", items: [
+    "Ao participar de partida contra um streamer, a organização e o gerenciamento da fila são responsabilidade do próprio streamer.",
+    "Problemas dentro da fila administrada pelo streamer não são atribuídos automaticamente ao BH Sorteado Revela.",
+    "Não é permitido solicitar tela de um streamer enquanto ele estiver ao vivo."
+  ]},
+  { t: "Comunicação oficial", items: [
+    "As comunicações oficiais devem ocorrer pelos canais oficiais.",
+    "Siga as orientações dos administradores responsáveis.",
+    "Procedimentos, decisões e acordos feitos por pessoas que não sejam administradores oficiais não representam a organização."
+  ]},
+  { t: "Idade, negociações e responsabilidades", items: [
+    "É expressamente proibida a participação de menores de 18 anos.",
+    "Ao ingressar na organização, o participante declara ter 18 anos ou mais.",
+    "O BH Sorteado Revela não se responsabiliza por compras, vendas, trocas, negociações, transferências ou pagamentos feitos entre participantes.",
+    "A organização também não se responsabiliza por acordos conduzidos por pessoas que não sejam administradores oficiais.",
+    "Prejuízos, golpes e desacordos decorrentes dessas negociações são de responsabilidade dos envolvidos.",
+    "Somente procedimentos e decisões feitos diretamente pelos administradores oficiais representam a organização.",
+    "Usar o nome, a marca ou os canais do BH Sorteado Revela não transforma negociações particulares em operações oficiais."
+  ], extra: { type: "warn", text: "<b>Atenção:</b> negocie apenas com administradores oficiais." }},
+  { t: "Disposições finais", items: [
+    "Ao entrar em uma fila ou partida, o jogador declara estar ciente e de acordo com todas as regras.",
+    "A administração pode avaliar situações excepcionais não previstas neste documento.",
+    "O regulamento pode ser atualizado a qualquer momento. Acompanhe as alterações nos canais oficiais.",
+    "O descumprimento pode resultar em advertência, perda de round, recriação, W.O. ou outras medidas administrativas."
+  ]}
+];
+
+/* ============================================================
+   RENDERIZAÇÃO (não precisa mexer daqui pra baixo)
+   ============================================================ */
+
+// Naipes flutuando no fundo
+const suitsEl = document.getElementById("suits");
+const SUITS = ["♠","♣","♥","♦"];
+for (let i = 0; i < 14; i++){
+  const s = document.createElement("span");
+  s.textContent = SUITS[i % 4];
+  s.style.left = (Math.random()*100) + "%";
+  s.style.setProperty("--s", (18 + Math.random()*34) + "px");
+  s.style.setProperty("--d", (14 + Math.random()*16) + "s");
+  s.style.setProperty("--delay", (-Math.random()*20) + "s");
+  suitsEl.appendChild(s);
+}
+
+// Imagem de personagem, pet ou arma. Se faltar o arquivo, mostra "FOTO EM BREVE"
+function thumb(file, nome, folder, ext = "svg"){
+  return `<div class="thumb">
+    <img src="img/${folder}/${file}.${ext}" alt="${nome}" loading="lazy"
+      onerror="this.remove();this.parentElement.insertAdjacentHTML('beforeend','<span class=&quot;ph&quot;>FOTO EM BREVE</span>')">
+  </div>`;
+}
+
+// Séries
+document.getElementById("series-grid").innerHTML = SERIES.map(s => `
+  <div class="card serie reveal">
+    <div class="top">
+      <span class="badge">${s.faixa}</span>
+      <span class="suit">♠</span>
+    </div>
+    <h3>${s.nome}</h3>
+    <p>${s.desc}</p>
+    <div class="status">
+      ${s.aberta
+        ? '<span class="dot"></span><b>Aberta</b>'
+        : '<span class="dot off"></span><b class="off">Fechada</b>'}
+    </div>
+  </div>`).join("");
+
+// Personagens (PNG)
+document.getElementById("chars-grid").innerHTML = CHARS.map(c => `
+  <div class="card reveal">
+    ${thumb(c.toLowerCase(), c, "personagens", "png")}
+    <div class="thumb-cat">Personagem</div>
+    <div class="thumb-name">${c}</div>
+  </div>`).join("");
+
+// Pets (PNG)
+document.getElementById("pets-grid").innerHTML = PETS.map(p => `
+  <div class="card reveal">
+    ${thumb(p.file, p.nome, "personagens", "png")}
+    <div class="thumb-cat">Pet</div>
+    <div class="thumb-name">${p.nome}</div>
+  </div>`).join("");
+
+// Armas (SVG)
+document.getElementById("weapons-grid").innerHTML = WEAPONS.map(w => `
+  <div class="card reveal">
+    ${thumb(w.file, w.nome, "armas")}
+    <div class="thumb-cat">${w.tag}</div>
+    <div class="thumb-name">${w.nome}</div>
+  </div>`).join("");
+
+// Regras
+function renderRules(filter=""){
+  const f = filter.trim().toLowerCase();
+  const list = document.getElementById("rules-list");
+  const html = RULES.map((sec, i) => {
+    const items = sec.items.filter(x => !f || x.toLowerCase().includes(f));
+    const titleMatch = sec.t.toLowerCase().includes(f);
+    if (f && !items.length && !titleMatch) return "";
+    const shown = (f && !titleMatch) ? items : sec.items;
+    const extra = sec.extra ? `<div class="${sec.extra.type}">${sec.extra.text}</div>` : "";
+    return `
+    <details ${f ? "open" : ""} class="reveal">
+      <summary>
+        <span class="left"><span class="num">${String(i+1).padStart(2,"0")}</span>${sec.t}</span>
+      </summary>
+      <div class="body">
+        <ul>${shown.map(x => `<li>${x}</li>`).join("")}</ul>
+        ${extra}
+      </div>
+    </details>`;
+  }).join("");
+  list.innerHTML = html || `<p style="color:var(--muted);text-align:center;padding:30px 0">Nada encontrado. Tente outra palavra.</p>`;
+  observeReveal();
+}
+renderRules();
+document.getElementById("search").addEventListener("input", e => renderRules(e.target.value));
+
+// Abrir / fechar todas as regras
+let allOpen = false;
+document.getElementById("toggle-all").addEventListener("click", e => {
+  allOpen = !allOpen;
+  document.querySelectorAll("#rules-list details").forEach(d => d.open = allOpen);
+  e.target.textContent = allOpen ? "Fechar todas" : "Abrir todas";
+});
+
+// Efeito de luz seguindo o mouse/dedo nos cards
+document.addEventListener("pointermove", e => {
+  const card = e.target.closest && e.target.closest(".card");
+  if (!card) return;
+  const r = card.getBoundingClientRect();
+  card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+  card.style.setProperty("--my", (e.clientY - r.top) + "px");
+});
+
+// Revelar seções ao rolar
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+}, { threshold: 0.12 });
+function observeReveal(){
+  document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el));
+}
+observeReveal();
+</script>
+</body>
+</html>
