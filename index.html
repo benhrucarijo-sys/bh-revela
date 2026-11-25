@@ -4,18 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>BH Sorteado Revela</title>
-<meta name="description" content="Regras, séries, personagens, armas e duelos do BH Sorteado Revela. Entre no nosso Discord!">
+<meta name="description" content="Regras do sorteado, regras de duelos, séries, personagens e armas do BH Sorteado Revela. Entre no nosso Discord!">
 <meta name="theme-color" content="#03050b">
 <link rel="icon" href="img/logo.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#03050b;
-    --panel:#0a1226;
     --blue:#1f6fff;
     --blue-dark:#0a3fb0;
     --cyan:#4fc3ff;
     --gold:#ffd166;
+    --orange:#ffb347;
+    --orange-dark:#c4661a;
     --silver:#e6ebf4;
     --muted:#8d99b3;
     --line:rgba(79,195,255,.18);
@@ -67,9 +68,12 @@
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--silver)}
   .brand img{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 0 16px rgba(31,111,255,.6)}
   .brand span{font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:2px}
-  .menu{display:flex;gap:22px;align-items:center}
-  .menu a.link{color:var(--silver);text-decoration:none;font-weight:600;font-size:.92rem;opacity:.8;transition:.2s}
-  .menu a.link:hover{color:var(--cyan);opacity:1}
+  .menu{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+  .menu a.link{color:var(--silver);text-decoration:none;font-weight:700;font-size:.85rem;padding:9px 14px;border-radius:12px;border:1px solid var(--line);background:var(--glass);transition:.2s}
+  .menu a.link:hover{color:var(--cyan);border-color:var(--cyan)}
+  .menu a.link.sorteio{border-color:rgba(79,195,255,.45)}
+  .menu a.link.duelo{border-color:rgba(255,179,71,.5);color:var(--orange)}
+  .menu a.link.duelo:hover{border-color:var(--orange);color:var(--gold)}
 
   /* ---------- BOTÕES ---------- */
   .btn{
@@ -92,7 +96,7 @@
   }
   @keyframes shine{0%,60%{left:-120%}100%{left:160%}}
   .btn-discord:hover{box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 16px 45px -4px rgba(79,195,255,.95)}
-  .btn-discord.small{padding:9px 16px;font-size:.78rem;animation:none;border-radius:11px}
+  .btn-discord.small{padding:9px 14px;font-size:.75rem;animation:none;border-radius:11px}
   @keyframes pulse{
     0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 10px 26px -6px rgba(31,111,255,.7)}
     50%{box-shadow:0 0 0 1px rgba(255,255,255,.22) inset,0 14px 44px -4px rgba(79,195,255,1)}
@@ -102,6 +106,14 @@
     box-shadow:0 10px 30px -5px rgba(37,211,102,.55);
   }
   .btn-wpp:hover{box-shadow:0 16px 40px -4px rgba(37,211,102,.85)}
+  .btn-sorteio{
+    background:linear-gradient(135deg,#3b8bff,var(--blue-dark));
+    box-shadow:0 10px 30px -8px rgba(31,111,255,.8);
+  }
+  .btn-duelo{
+    background:linear-gradient(135deg,var(--orange),var(--orange-dark));
+    box-shadow:0 10px 30px -8px rgba(255,179,71,.6);
+  }
 
   /* ---------- HERO ---------- */
   .hero{padding:60px 0 50px;text-align:center;position:relative}
@@ -152,6 +164,10 @@
   .hero p.lead{color:var(--muted);max-width:600px;margin:18px auto 30px;font-size:1.05rem;animation:enter 1s .3s cubic-bezier(.2,.8,.2,1) both}
   .hero .btn-discord{font-size:1.05rem;padding:19px 38px}
   .hero .sub{margin-top:14px;font-size:.82rem;color:var(--muted)}
+
+  /* botões de atalho para as regras (hero) */
+  .rules-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:22px}
+  .rules-buttons .btn{font-size:.9rem;padding:15px 24px}
 
   .alert{
     margin:30px auto 0;max-width:680px;padding:14px 18px;border-radius:14px;
@@ -242,26 +258,21 @@
   .wpp-area{text-align:center;margin-top:30px}
   .wpp-area p{color:var(--muted);margin-bottom:16px;font-size:.95rem}
 
-  /* ---------- REGULAMENTO: ABAS ---------- */
-  .tabs{
-    display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:8px;margin-bottom:28px;
-    background:rgba(10,18,38,.7);border:1px solid var(--line);border-radius:22px;
+  /* ---------- REGULAMENTO: DOIS BLOCOS COM BOTÕES ---------- */
+  .rules-switch{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:30px;
   }
-  .tab-btn{
-    cursor:pointer;font-family:inherit;color:var(--muted);background:transparent;border:1px solid transparent;
-    border-radius:16px;padding:16px 14px;text-align:left;transition:.25s;
-  }
-  .tab-btn .t-title{display:block;font-family:'Bebas Neue';font-size:1.7rem;letter-spacing:2px;line-height:1}
-  .tab-btn .t-sub{display:block;font-size:.78rem;font-weight:700;margin-top:4px;letter-spacing:.3px}
-  .tab-btn:hover{color:var(--silver);border-color:var(--line)}
-  .tab-btn.active{
-    color:#fff;background:linear-gradient(135deg,#3b8bff,var(--blue-dark));
-    box-shadow:0 10px 30px -8px rgba(31,111,255,.8);border-color:rgba(255,255,255,.15);
-  }
-  .tab-btn.active.duelo{background:linear-gradient(135deg,#ffb347,#c4661a);box-shadow:0 10px 30px -8px rgba(255,179,71,.6)}
-  .panel{display:none;animation:up .5s cubic-bezier(.2,.8,.2,1)}
-  .panel.active{display:block}
+  .rules-switch .btn{width:100%;flex-direction:column;gap:4px;padding:20px 16px;border-radius:20px}
+  .rules-switch .btn small{font-size:.72rem;letter-spacing:1px;font-weight:700;text-transform:none;opacity:.85}
+  .rules-switch .btn .big{font-family:'Bebas Neue';font-size:1.8rem;letter-spacing:2px;line-height:1}
+
+  .block{display:none;animation:up .5s cubic-bezier(.2,.8,.2,1)}
+  .block.active{display:block}
   @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .block-title{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .block-title h3{font-size:2.2rem}
+  .block-title .tag{font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--cyan)}
+  .block-title .tag.duelo{color:var(--orange);border-color:rgba(255,179,71,.45)}
 
   .toolbar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
   .search{
@@ -304,11 +315,8 @@
   .acc li::before{content:"♠";position:absolute;left:0;top:0;color:var(--cyan);font-size:.8rem}
 
   /* duelos: cartões numerados */
-  .duelo-head{
-    display:grid;gap:12px;margin-bottom:22px;
-  }
   .duelo-banner{
-    position:relative;overflow:hidden;text-align:center;padding:30px 22px;border-radius:24px;
+    position:relative;overflow:hidden;text-align:center;padding:30px 22px;border-radius:24px;margin-bottom:22px;
     background:linear-gradient(160deg,#2a1708,#0a0604);border:1px solid rgba(255,179,71,.35);
   }
   .duelo-banner::before{
@@ -326,7 +334,7 @@
     display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:2px;
     color:#0a0604;background:linear-gradient(135deg,var(--gold),#ffb347);padding:8px 22px;border-radius:999px;
   }
-  .duelo-list{display:grid;gap:12px;counter-reset:regra}
+  .duelo-list{display:grid;gap:12px}
   .duelo-item{
     display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start;
     background:linear-gradient(160deg,rgba(26,18,10,.75),rgba(10,10,20,.85));
@@ -362,12 +370,14 @@
   footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:34px 0 110px;text-align:center;color:var(--muted);font-size:.85rem}
   footer .btn-discord{margin-bottom:18px}
 
+  /* barra fixa do celular com os dois botões de regras */
   .mobile-bar{display:none}
   .reveal{animation:up .7s cubic-bezier(.2,.8,.2,1) backwards}
 
   /* ---------- RESPONSIVO ---------- */
   @media (max-width:900px){
-    .menu a.link{display:none}
+    .menu a.link.sorteio,.menu a.link.duelo{display:none}
+    .menu .btn-discord.small{display:none}
     .series-list{grid-template-columns:1fr}
   }
   @media (max-width:760px){
@@ -378,7 +388,8 @@
     .ace.l{left:-18px}
     .ace.r{right:-18px}
     .brand span{font-size:1.3rem}
-    .hero .btn-discord,.btn-discord:not(.small),.btn-wpp{width:100%}
+    .hero .btn-discord,.btn-discord:not(.small),.btn-wpp,.rules-buttons .btn{width:100%}
+    .rules-buttons{flex-direction:column}
     .btn{padding:15px 20px}
     .s-name{font-size:1.8rem}
     .serie summary{padding:17px 16px}
@@ -387,9 +398,8 @@
     .card{padding:13px;border-radius:16px}
     .thumb{margin-bottom:10px;border-radius:12px}
     .thumb-name{font-size:.82rem}
-    .tabs{grid-template-columns:1fr;gap:8px;padding:6px}
-    .tab-btn{padding:13px 14px}
-    .tab-btn .t-title{font-size:1.45rem}
+    .rules-switch{grid-template-columns:1fr;gap:10px}
+    .block-title h3{font-size:1.8rem}
     .toolbar .ghost{width:100%}
     .acc .body{padding:0 16px 18px 16px}
     .acc summary .num{min-width:30px;height:30px;font-size:1rem}
@@ -398,20 +408,17 @@
     .chips a{font-size:.8rem;padding:8px 13px}
     .cta-box{padding:40px 18px}
     .mobile-bar{
-      display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
-      z-index:60;padding:10px;border-radius:20px;background:rgba(5,9,20,.88);
+      display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));
+      z-index:60;padding:8px;border-radius:20px;background:rgba(5,9,20,.92);
       backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-      border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.6);align-items:center;gap:10px;
+      border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.6);gap:8px;
     }
-    .mobile-bar .txt{flex:0 0 auto;font-size:.72rem;line-height:1.2;color:var(--muted);padding-left:6px}
-    .mobile-bar .txt b{display:block;color:var(--silver);font-size:.82rem;font-family:'Bebas Neue';letter-spacing:1.5px;font-weight:400}
-    .mobile-bar .btn-discord{flex:1;padding:13px 10px;font-size:.78rem;animation:none;border-radius:14px}
-    .mobile-bar .btn-discord::after{display:none}
-    footer{padding-bottom:120px}
+    .mobile-bar a{flex:1;text-align:center;padding:12px 6px;font-size:.72rem;border-radius:14px;animation:none}
+    .mobile-bar a::after{display:none}
+    footer{padding-bottom:140px}
   }
   @media (max-width:360px){
     .grid{grid-template-columns:1fr}
-    .mobile-bar .txt{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
@@ -433,7 +440,8 @@
       <a class="link" href="#series">Séries</a>
       <a class="link" href="#personagens">Personagens</a>
       <a class="link" href="#armas">Armas</a>
-      <a class="link" href="#regras">Regras</a>
+      <a class="link sorteio" href="#regras-sorteio">♠ Regras do Sorteado</a>
+      <a class="link duelo" href="#regras-duelo">⚔ Regras de Duelos</a>
       <a href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener" class="btn btn-discord small">Discord</a>
     </nav>
   </div>
@@ -456,13 +464,17 @@
       <h1>Seja bem-vindo ao<br><span class="grad">Sorteado BH Revela</span></h1>
       <p class="lead">Partidas organizadas, sorteios transparentes e regras claras. Veja as séries, confira o regulamento e entre na nossa comunidade.</p>
       <a class="btn btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord agora</a>
-      <p class="hero sub" style="margin-top:14px;font-size:.82rem;color:var(--muted)">Entrada exclusiva para maiores de 18 anos</p>
+      <p class="sub">Entrada exclusiva para maiores de 18 anos</p>
+
+      <div class="rules-buttons">
+        <a class="btn btn-sorteio" href="#regras-sorteio">♠ Regras do Sorteado</a>
+        <a class="btn btn-duelo" href="#regras-duelo">⚔ Regras de Duelos</a>
+      </div>
 
       <div class="chips">
         <a href="#series">Séries</a>
         <a href="#personagens">Personagens</a>
         <a href="#armas">Armas</a>
-        <a href="#regras">Regulamento</a>
       </div>
       <div class="alert">⚠️ Participação proibida para menores de 18 anos. Ao entrar, você declara ter 18 anos ou mais.</div>
     </div>
@@ -502,50 +514,40 @@
     </div>
   </section>
 
-  <!-- REGRAS -->
-  <section id="regras">
+  <!-- REGRAS DO SORTEADO -->
+  <section id="regras-sorteio">
     <div class="container">
-      <div class="sec-title"><span class="num">05</span><h2>Regulamento</h2></div>
-
-      <div class="tabs" role="tablist">
-        <button class="tab-btn active" data-tab="sorteio" role="tab">
-          <span class="t-title">♠ Regras do Sorteado</span>
-          <span class="t-sub">Filas, sorteios e partidas</span>
-        </button>
-        <button class="tab-btn duelo" data-tab="duelo" role="tab">
-          <span class="t-title">⚔ Regras de Duelos</span>
-          <span class="t-sub">Duelos mediados por ADMs</span>
-        </button>
+      <div class="sec-title"><span class="num">05</span><h2>Regras do Sorteado</h2></div>
+      <div class="toolbar">
+        <input class="search" data-search="sorteio" type="search" placeholder="Buscar nas regras do sorteado (ex: recriação, W.O., 0x0)...">
+        <button class="ghost" data-toggle="sorteio">Abrir todas</button>
       </div>
+      <div class="acc" id="rules-sorteio"></div>
+      <div class="highlight">Dúvidas? Fale com os administradores oficiais pelo Discord.</div>
+    </div>
+  </section>
 
-      <!-- PAINEL: SORTEADO -->
-      <div class="panel active" id="panel-sorteio">
-        <div class="toolbar">
-          <input class="search" data-search="sorteio" type="search" placeholder="Buscar nas regras do sorteado (ex: recriação, W.O., 0x0)...">
-          <button class="ghost" data-toggle="sorteio">Abrir todas</button>
-        </div>
-        <div class="acc" id="rules-sorteio"></div>
-        <div class="highlight">Dúvidas? Fale com os administradores oficiais pelo Discord.</div>
+  <!-- REGRAS DE DUELOS -->
+  <section id="regras-duelo">
+    <div class="container">
+      <div class="sec-title"><span class="num">06</span><h2>Regras de Duelos</h2></div>
+      <div class="duelo-banner">
+        <h3>Duelos BH Revela</h3>
+        <span class="mediar">Apenas ADMs podem mediar duelos</span><br>
+        <span class="price">+ R$ 20,00 = MURAL</span>
       </div>
-
-      <!-- PAINEL: DUELOS -->
-      <div class="panel" id="panel-duelo">
-        <div class="duelo-head">
-          <div class="duelo-banner">
-            <h3>Duelos BH Revela</h3>
-            <span class="mediar">Apenas ADMs podem mediar duelos</span><br>
-            <span class="price">+ R$ 20,00 = MURAL</span>
-          </div>
-        </div>
-        <div class="toolbar">
-          <input class="search" data-search="duelo" type="search" placeholder="Buscar nas regras de duelos (ex: recriar, level, pet)...">
-        </div>
-        <div class="duelo-list" id="rules-duelo"></div>
-        <div class="highlight">
-          <b>Discord:</b> <a href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">https://discord.gg/bh-revela-2k-915697060550950932</a>
-        </div>
+      <div class="toolbar">
+        <input class="search" data-search="duelo" type="search" placeholder="Buscar nas regras de duelos (ex: recriar, level, pet)...">
       </div>
+      <div class="duelo-list" id="rules-duelo"></div>
+      <div class="highlight">
+        <b>Discord:</b> <a href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">https://discord.gg/bh-revela-2k-915697060550950932</a>
+      </div>
+    </div>
+  </section>
 
+  <section>
+    <div class="container">
       <div class="cta-box">
         <h2>Pronto para jogar?</h2>
         <p>Entre no Discord oficial, acompanhe os sorteios e fique por dentro de tudo.</p>
@@ -565,9 +567,10 @@
   </div>
 </footer>
 
+<!-- barra fixa no celular com os dois botões de regras -->
 <div class="mobile-bar">
-  <div class="txt"><b>BH REVELA</b>Sorteios e duelos</div>
-  <a class="btn btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
+  <a class="btn btn-sorteio" href="#regras-sorteio">♠ Regras do Sorteado</a>
+  <a class="btn btn-duelo" href="#regras-duelo">⚔ Regras de Duelos</a>
 </div>
 
 <script>
@@ -798,7 +801,6 @@ function cleanBackground(img){
   } catch (e) {}
 }
 
-// Naipes flutuando
 const suitsEl = document.getElementById("suits");
 const SUITS = ["♠","♣","♥","♦"];
 for (let i = 0; i < 14; i++){
@@ -819,7 +821,6 @@ function thumb(file, nome, folder, ext = "svg"){
   </div>`;
 }
 
-// Séries
 document.getElementById("series-grid").innerHTML = SERIES.map(s => {
   const total = s.ranks.reduce((acc, r) => acc + r.jogadores.length, 0);
   const ranks = s.ranks.map(r => `
@@ -848,7 +849,6 @@ document.getElementById("series-grid").innerHTML = SERIES.map(s => {
   </details>`;
 }).join("");
 
-// Personagens, pets e armas
 document.getElementById("chars-grid").innerHTML = CHARS.map(c => `
   <div class="card reveal">
     ${thumb(c.toLowerCase(), c, "personagens", "png")}
@@ -868,7 +868,6 @@ document.getElementById("weapons-grid").innerHTML = WEAPONS.map(w => `
     <div class="thumb-name">${w.nome}</div>
   </div>`).join("");
 
-// Regras do sorteado (acordeão com busca)
 function renderSorteio(filter = ""){
   const f = filter.trim().toLowerCase();
   const html = RULES_SORTEIO.map((sec, i) => {
@@ -889,7 +888,6 @@ function renderSorteio(filter = ""){
   document.getElementById("rules-sorteio").innerHTML = html || `<p class="nada">Nada encontrado. Tente outra palavra.</p>`;
 }
 
-// Regras de duelos (cartões com busca)
 function renderDuelo(filter = ""){
   const f = filter.trim().toLowerCase();
   const items = RULES_DUELO
@@ -906,11 +904,9 @@ function renderDuelo(filter = ""){
 renderSorteio();
 renderDuelo();
 
-// Busca separada para cada aba
 document.querySelector('[data-search="sorteio"]').addEventListener("input", e => renderSorteio(e.target.value));
 document.querySelector('[data-search="duelo"]').addEventListener("input", e => renderDuelo(e.target.value));
 
-// Abrir / fechar todas as regras do sorteado
 let allOpen = false;
 document.querySelector('[data-toggle="sorteio"]').addEventListener("click", e => {
   allOpen = !allOpen;
@@ -918,16 +914,6 @@ document.querySelector('[data-toggle="sorteio"]').addEventListener("click", e =>
   e.currentTarget.textContent = allOpen ? "Fechar todas" : "Abrir todas";
 });
 
-// Troca de abas
-document.querySelectorAll(".tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const alvo = btn.dataset.tab;
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
-    document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + alvo));
-  });
-});
-
-// Luz seguindo o mouse/dedo nos cards
 document.addEventListener("pointermove", e => {
   const card = e.target.closest && e.target.closest(".card");
   if (!card) return;
