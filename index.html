@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>BH Sorteado Revela</title>
-<meta name="description" content="Regras, séries, personagens e armas do BH Sorteado Revela. Entre no nosso Discord!">
+<meta name="description" content="Regras, séries, personagens, armas e duelos do BH Sorteado Revela. Entre no nosso Discord!">
 <meta name="theme-color" content="#03050b">
 <link rel="icon" href="img/logo.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -12,33 +12,31 @@
   :root{
     --bg:#03050b;
     --panel:#0a1226;
-    --panel2:#0d1a36;
     --blue:#1f6fff;
     --blue-dark:#0a3fb0;
     --cyan:#4fc3ff;
+    --gold:#ffd166;
     --silver:#e6ebf4;
     --muted:#8d99b3;
     --line:rgba(79,195,255,.18);
     --glass:rgba(13,26,54,.55);
     --wpp:#25d366;
     --wpp-dark:#128c4a;
+    --red:#ff7a7a;
+    --radius:20px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;scroll-padding-top:90px}
   body{
-    font-family:'Inter',system-ui,sans-serif;
-    color:var(--silver);
-    background:var(--bg);
-    line-height:1.6;
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
+    font-family:'Inter',system-ui,sans-serif;color:var(--silver);background:var(--bg);
+    line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
   }
   img{max-width:100%;display:block}
   a{color:var(--cyan)}
   h1,h2,h3{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-weight:400}
   .container{width:min(1100px,92%);margin:0 auto;position:relative;z-index:2}
 
-  /* ---------- FUNDO ANIMADO ---------- */
+  /* ---------- FUNDO ---------- */
   .bg-glow{
     position:fixed;inset:0;z-index:0;pointer-events:none;
     background:
@@ -47,10 +45,7 @@
       radial-gradient(900px 600px at 50% 110%, rgba(31,111,255,.22), transparent 60%);
     animation:drift 14s ease-in-out infinite alternate;
   }
-  @keyframes drift{
-    0%{transform:translate(0,0) scale(1)}
-    100%{transform:translate(-3%,2%) scale(1.06)}
-  }
+  @keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-3%,2%) scale(1.06)}}
   .suits{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
   .suits span{
     position:absolute;bottom:-60px;color:rgba(79,195,255,.12);
@@ -58,36 +53,36 @@
   }
   @keyframes rise{
     0%{transform:translateY(0) rotate(0deg);opacity:0}
-    10%{opacity:1}
-    90%{opacity:1}
+    10%{opacity:1}90%{opacity:1}
     100%{transform:translateY(-110vh) rotate(360deg);opacity:0}
   }
 
   /* ---------- HEADER ---------- */
   header{
-    position:sticky;top:0;z-index:50;
-    background:rgba(3,5,11,.72);
-    backdrop-filter:blur(14px) saturate(140%);
-    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    position:sticky;top:0;z-index:50;background:rgba(3,5,11,.75);
+    backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);
     border-bottom:1px solid var(--line);
   }
   .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--silver)}
   .brand img{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 0 16px rgba(31,111,255,.6)}
   .brand span{font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:2px}
-  .menu{display:flex;gap:20px;align-items:center}
-  .menu a:not(.btn-discord){color:var(--silver);text-decoration:none;font-weight:600;font-size:.92rem;opacity:.8;transition:.2s}
-  .menu a:not(.btn-discord):hover{color:var(--cyan);opacity:1}
+  .menu{display:flex;gap:22px;align-items:center}
+  .menu a.link{color:var(--silver);text-decoration:none;font-weight:600;font-size:.92rem;opacity:.8;transition:.2s}
+  .menu a.link:hover{color:var(--cyan);opacity:1}
 
   /* ---------- BOTÕES ---------- */
-  .btn-discord{
+  .btn{
     position:relative;overflow:hidden;
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
-    background:linear-gradient(135deg,#3b8bff,var(--blue-dark));
     color:#fff;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;
-    padding:15px 28px;border-radius:16px;white-space:nowrap;
+    padding:15px 28px;border-radius:16px;white-space:nowrap;cursor:pointer;border:none;font-family:inherit;
+    transition:transform .25s, box-shadow .25s, background .25s;
+  }
+  .btn:hover{transform:translateY(-3px) scale(1.03)}
+  .btn-discord{
+    background:linear-gradient(135deg,#3b8bff,var(--blue-dark));
     box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 10px 30px -5px rgba(31,111,255,.8);
-    transition:transform .25s, box-shadow .25s;
     animation:pulse 2.4s ease-in-out infinite;
   }
   .btn-discord::after{
@@ -96,25 +91,20 @@
     transform:skewX(-20deg);animation:shine 3.2s ease-in-out infinite;
   }
   @keyframes shine{0%,60%{left:-120%}100%{left:160%}}
-  .btn-discord:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 16px 45px -4px rgba(79,195,255,.95)}
+  .btn-discord:hover{box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 16px 45px -4px rgba(79,195,255,.95)}
   .btn-discord.small{padding:9px 16px;font-size:.78rem;animation:none;border-radius:11px}
   @keyframes pulse{
     0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 10px 26px -6px rgba(31,111,255,.7)}
     50%{box-shadow:0 0 0 1px rgba(255,255,255,.22) inset,0 14px 44px -4px rgba(79,195,255,1)}
   }
-
   .btn-wpp{
-    display:inline-flex;align-items:center;justify-content:center;gap:10px;
     background:linear-gradient(135deg,var(--wpp),var(--wpp-dark));
-    color:#fff;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;
-    padding:15px 28px;border-radius:16px;white-space:nowrap;
     box-shadow:0 10px 30px -5px rgba(37,211,102,.55);
-    transition:transform .25s, box-shadow .25s;
   }
-  .btn-wpp:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 16px 40px -4px rgba(37,211,102,.85)}
+  .btn-wpp:hover{box-shadow:0 16px 40px -4px rgba(37,211,102,.85)}
 
   /* ---------- HERO ---------- */
-  .hero{padding:56px 0 50px;text-align:center;position:relative}
+  .hero{padding:60px 0 50px;text-align:center;position:relative}
   .hero-cards{position:absolute;inset:0;pointer-events:none;z-index:-1}
   .ace{
     position:absolute;top:50%;width:150px;height:210px;margin-top:-105px;
@@ -122,18 +112,17 @@
     box-shadow:0 0 0 4px #0a1226,0 0 60px rgba(79,195,255,.45);
     display:flex;flex-direction:column;justify-content:space-between;padding:14px;
     color:#0a1226;font-family:'Bebas Neue';font-size:2.4rem;opacity:.22;
-    filter:saturate(.9);
   }
   .ace.l{left:2%;transform:rotate(-16deg);animation:float1 7s ease-in-out infinite}
   .ace.r{right:2%;transform:rotate(16deg);animation:float2 7s ease-in-out infinite}
   .ace .sym{font-size:4rem;line-height:1;text-align:center;font-family:Arial,sans-serif}
   .ace .corner{line-height:1}
   .ace .corner.bot{align-self:flex-end;transform:rotate(180deg)}
-  @keyframes float1{0%,100%{transform:rotate(-16deg) translateY(0)}50%{transform:rotate(-12deg) translateY(-14px)}}
-  @keyframes float2{0%,100%{transform:rotate(16deg) translateY(0)}50%{transform:rotate(12deg) translateY(-14px)}}
+  @keyframes float1{0%,100%{transform:rotate(-16deg)}50%{transform:rotate(-12deg) translateY(-14px)}}
+  @keyframes float2{0%,100%{transform:rotate(16deg)}50%{transform:rotate(12deg) translateY(-14px)}}
 
   .logo-wrap{
-    position:relative;width:min(250px,60vw);aspect-ratio:1;margin:0 auto 26px;
+    position:relative;width:min(230px,58vw);aspect-ratio:1;margin:0 auto 26px;
     animation:enter 1s cubic-bezier(.2,.8,.2,1) both;
   }
   .logo-wrap::before{
@@ -141,15 +130,10 @@
     background:conic-gradient(from 0deg,var(--cyan),var(--blue),#fff,var(--blue),var(--cyan));
     animation:spin 6s linear infinite;filter:blur(12px);opacity:.75;
   }
-  .hero-logo{
-    position:relative;width:100%;height:100%;border-radius:24px;object-fit:cover;
-    border:1px solid rgba(255,255,255,.12);
-  }
+  .hero-logo{position:relative;width:100%;height:100%;border-radius:24px;object-fit:cover;border:1px solid rgba(255,255,255,.12)}
   .hero-fallback{
-    position:relative;width:100%;height:100%;border-radius:24px;
-    display:none;align-items:center;justify-content:center;
-    font-family:'Bebas Neue';font-size:3.6rem;letter-spacing:4px;
-    background:linear-gradient(160deg,#1f6fff,#03050b);
+    position:relative;width:100%;height:100%;border-radius:24px;display:none;align-items:center;justify-content:center;
+    font-family:'Bebas Neue';font-size:3.6rem;letter-spacing:4px;background:linear-gradient(160deg,#1f6fff,#03050b);
   }
   @keyframes spin{to{transform:rotate(360deg)}}
   @keyframes enter{from{opacity:0;transform:translateY(20px) scale(.92)}to{opacity:1;transform:none}}
@@ -159,21 +143,14 @@
     color:var(--cyan);border:1px solid var(--line);background:rgba(79,195,255,.06);
     padding:6px 14px;border-radius:999px;margin-bottom:18px;
   }
-  .hero h1{
-    font-size:clamp(2.6rem,8vw,5.2rem);line-height:.95;
-    animation:enter 1s .15s cubic-bezier(.2,.8,.2,1) both;
-  }
+  .hero h1{font-size:clamp(2.5rem,8vw,5.2rem);line-height:.95;animation:enter 1s .15s cubic-bezier(.2,.8,.2,1) both}
   .hero h1 .grad{
     background:linear-gradient(90deg,#fff,var(--cyan),var(--blue),#fff);background-size:300% auto;
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:sheen 5s linear infinite;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 5s linear infinite;
   }
   @keyframes sheen{to{background-position:300% center}}
-  .hero p.lead{
-    color:var(--muted);max-width:600px;margin:18px auto 30px;font-size:1.05rem;
-    animation:enter 1s .3s cubic-bezier(.2,.8,.2,1) both;
-  }
-  .hero .btn-discord{font-size:1.05rem;padding:19px 38px;animation:pulse 2.4s ease-in-out infinite, enter 1s .45s both}
+  .hero p.lead{color:var(--muted);max-width:600px;margin:18px auto 30px;font-size:1.05rem;animation:enter 1s .3s cubic-bezier(.2,.8,.2,1) both}
+  .hero .btn-discord{font-size:1.05rem;padding:19px 38px}
   .hero .sub{margin-top:14px;font-size:.82rem;color:var(--muted)}
 
   .alert{
@@ -181,9 +158,7 @@
     background:rgba(255,70,70,.07);border:1px solid rgba(255,90,90,.35);
     color:#ffb3b3;font-size:.9rem;text-align:center;
   }
-
-  /* ---------- CHIPS DE NAVEGAÇÃO ---------- */
-  .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:8px}
+  .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:30px}
   .chips a{
     text-decoration:none;color:var(--silver);font-weight:700;font-size:.85rem;
     padding:9px 16px;border-radius:999px;background:var(--glass);border:1px solid var(--line);
@@ -192,7 +167,7 @@
   .chips a:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
 
   /* ---------- SEÇÕES ---------- */
-  section{padding:56px 0}
+  section{padding:56px 0;scroll-margin-top:80px}
   .sec-title{display:flex;align-items:center;gap:14px;margin-bottom:26px}
   .sec-title .num{
     font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:var(--blue);
@@ -205,7 +180,7 @@
   .card{
     position:relative;overflow:hidden;
     background:linear-gradient(160deg,rgba(13,26,54,.9),rgba(10,18,38,.9));
-    border:1px solid var(--line);border-radius:20px;padding:18px;
+    border:1px solid var(--line);border-radius:var(--radius);padding:18px;
     transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s, box-shadow .3s;
   }
   .card::after{
@@ -215,12 +190,10 @@
   }
   .card:hover{transform:translateY(-6px);border-color:rgba(79,195,255,.6);box-shadow:0 18px 40px -10px rgba(31,111,255,.45)}
   .card:hover::after{opacity:1}
-
   .thumb{
     aspect-ratio:4/3;border-radius:14px;overflow:hidden;margin-bottom:14px;
     background:radial-gradient(circle at 50% 30%,rgba(31,111,255,.4),#050912 72%);
-    display:flex;align-items:center;justify-content:center;
-    border:1px solid rgba(255,255,255,.06);position:relative;
+    display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.06);position:relative;
   }
   .thumb img{width:100%;height:100%;object-fit:contain;padding:10px;transition:transform .4s}
   .card:hover .thumb img{transform:scale(1.08)}
@@ -233,8 +206,7 @@
   .serie{
     position:relative;overflow:hidden;
     background:linear-gradient(160deg,rgba(13,26,54,.9),rgba(10,18,38,.9));
-    border:1px solid var(--line);border-radius:20px;
-    transition:border-color .3s, box-shadow .3s;
+    border:1px solid var(--line);border-radius:var(--radius);transition:border-color .3s, box-shadow .3s;
   }
   .serie[open]{border-color:rgba(79,195,255,.5);box-shadow:0 18px 40px -12px rgba(31,111,255,.4)}
   .serie summary{
@@ -248,8 +220,7 @@
   .s-status{display:flex;align-items:center;font-size:.78rem;font-weight:800;color:#7dffb0;white-space:nowrap}
   .s-status.off{color:#ff9d9d}
   .s-arrow{
-    width:12px;height:12px;flex:0 0 12px;
-    border-right:2px solid var(--cyan);border-bottom:2px solid var(--cyan);
+    width:12px;height:12px;flex:0 0 12px;border-right:2px solid var(--cyan);border-bottom:2px solid var(--cyan);
     transform:rotate(45deg);transition:transform .3s;
   }
   .serie[open] .s-arrow{transform:rotate(-135deg)}
@@ -271,46 +242,30 @@
   .wpp-area{text-align:center;margin-top:30px}
   .wpp-area p{color:var(--muted);margin-bottom:16px;font-size:.95rem}
 
-  /* ---------- REGRAS ---------- */
-  .rules details{
-    background:linear-gradient(160deg,rgba(13,26,54,.85),rgba(10,18,38,.85));
-    border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden;
-    transition:border-color .3s;
+  /* ---------- REGULAMENTO: ABAS ---------- */
+  .tabs{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:8px;margin-bottom:28px;
+    background:rgba(10,18,38,.7);border:1px solid var(--line);border-radius:22px;
   }
-  .rules details[open]{border-color:rgba(79,195,255,.5)}
-  .rules summary{
-    cursor:pointer;list-style:none;padding:17px 20px;font-weight:800;font-size:1rem;
-    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  .tab-btn{
+    cursor:pointer;font-family:inherit;color:var(--muted);background:transparent;border:1px solid transparent;
+    border-radius:16px;padding:16px 14px;text-align:left;transition:.25s;
   }
-  .rules summary::-webkit-details-marker{display:none}
-  .rules summary .left{display:flex;align-items:center;gap:14px}
-  .rules summary .num{
-    font-family:'Bebas Neue';font-size:1.2rem;color:var(--cyan);
-    min-width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;
-    border-radius:10px;background:rgba(79,195,255,.1);
+  .tab-btn .t-title{display:block;font-family:'Bebas Neue';font-size:1.7rem;letter-spacing:2px;line-height:1}
+  .tab-btn .t-sub{display:block;font-size:.78rem;font-weight:700;margin-top:4px;letter-spacing:.3px}
+  .tab-btn:hover{color:var(--silver);border-color:var(--line)}
+  .tab-btn.active{
+    color:#fff;background:linear-gradient(135deg,#3b8bff,var(--blue-dark));
+    box-shadow:0 10px 30px -8px rgba(31,111,255,.8);border-color:rgba(255,255,255,.15);
   }
-  .rules summary::after{
-    content:"";width:12px;height:12px;flex:0 0 12px;
-    border-right:2px solid var(--cyan);border-bottom:2px solid var(--cyan);
-    transform:rotate(45deg) translate(-3px,-3px);transition:transform .3s;
-  }
-  .rules details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
-  .rules .body{padding:0 20px 20px 70px;color:#c9d2e6;font-size:.94rem}
-  .rules .body ul{list-style:none}
-  .rules .body li{position:relative;padding-left:18px;margin-bottom:9px}
-  .rules .body li::before{content:"♠";position:absolute;left:0;top:0;color:var(--cyan);font-size:.8rem}
-  .rules .highlight{
-    margin-top:12px;padding:12px 14px;border-radius:12px;
-    background:rgba(79,195,255,.07);border-left:3px solid var(--cyan);
-  }
-  .rules .highlight a{font-weight:700}
-  .rules .warn{
-    margin-top:12px;padding:12px 14px;border-radius:12px;
-    background:rgba(255,90,90,.08);border-left:3px solid #ff7a7a;color:#ffd0d0;
-  }
+  .tab-btn.active.duelo{background:linear-gradient(135deg,#ffb347,#c4661a);box-shadow:0 10px 30px -8px rgba(255,179,71,.6)}
+  .panel{display:none;animation:up .5s cubic-bezier(.2,.8,.2,1)}
+  .panel.active{display:block}
+  @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
   .toolbar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
   .search{
-    flex:1;min-width:220px;padding:15px 18px;border-radius:14px;
+    flex:1;min-width:200px;padding:15px 18px;border-radius:14px;
     background:rgba(10,18,38,.8);border:1px solid var(--line);color:var(--silver);font-size:1rem;outline:none;
     font-family:inherit;transition:.2s;
   }
@@ -322,11 +277,77 @@
   }
   .ghost:hover{border-color:var(--cyan);color:var(--cyan)}
 
-  /* CTA final */
+  /* acordeão (sorteado) */
+  .acc details{
+    background:linear-gradient(160deg,rgba(13,26,54,.85),rgba(10,18,38,.85));
+    border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:border-color .3s;
+  }
+  .acc details[open]{border-color:rgba(79,195,255,.5)}
+  .acc summary{
+    cursor:pointer;list-style:none;padding:17px 20px;font-weight:800;font-size:1rem;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .acc summary::-webkit-details-marker{display:none}
+  .acc summary .left{display:flex;align-items:center;gap:14px}
+  .acc summary .num{
+    font-family:'Bebas Neue';font-size:1.2rem;color:var(--cyan);min-width:36px;height:36px;
+    display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(79,195,255,.1);
+  }
+  .acc summary::after{
+    content:"";width:12px;height:12px;flex:0 0 12px;border-right:2px solid var(--cyan);border-bottom:2px solid var(--cyan);
+    transform:rotate(45deg) translate(-3px,-3px);transition:transform .3s;
+  }
+  .acc details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+  .acc .body{padding:0 20px 20px 70px;color:#c9d2e6;font-size:.94rem}
+  .acc ul{list-style:none}
+  .acc li{position:relative;padding-left:18px;margin-bottom:9px}
+  .acc li::before{content:"♠";position:absolute;left:0;top:0;color:var(--cyan);font-size:.8rem}
+
+  /* duelos: cartões numerados */
+  .duelo-head{
+    display:grid;gap:12px;margin-bottom:22px;
+  }
+  .duelo-banner{
+    position:relative;overflow:hidden;text-align:center;padding:30px 22px;border-radius:24px;
+    background:linear-gradient(160deg,#2a1708,#0a0604);border:1px solid rgba(255,179,71,.35);
+  }
+  .duelo-banner::before{
+    content:"";position:absolute;inset:-50%;
+    background:conic-gradient(from 0deg,transparent,rgba(255,179,71,.22),transparent 30%);
+    animation:spin 10s linear infinite;
+  }
+  .duelo-banner > *{position:relative}
+  .duelo-banner h3{font-size:clamp(2rem,6vw,3rem);color:var(--gold)}
+  .duelo-banner .mediar{
+    display:inline-block;margin-top:10px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;
+    color:#fff;background:rgba(255,122,122,.15);border:1px solid rgba(255,122,122,.5);padding:8px 16px;border-radius:12px;
+  }
+  .price{
+    display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:2px;
+    color:#0a0604;background:linear-gradient(135deg,var(--gold),#ffb347);padding:8px 22px;border-radius:999px;
+  }
+  .duelo-list{display:grid;gap:12px;counter-reset:regra}
+  .duelo-item{
+    display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start;
+    background:linear-gradient(160deg,rgba(26,18,10,.75),rgba(10,10,20,.85));
+    border:1px solid rgba(255,179,71,.18);border-radius:16px;padding:16px 18px;transition:border-color .3s, transform .3s;
+  }
+  .duelo-item:hover{border-color:rgba(255,179,71,.55);transform:translateX(4px)}
+  .duelo-item .n{
+    font-family:'Bebas Neue';font-size:1.5rem;color:var(--gold);width:52px;height:52px;display:flex;align-items:center;justify-content:center;
+    border-radius:14px;background:rgba(255,179,71,.1);border:1px solid rgba(255,179,71,.25);
+  }
+  .duelo-item p{color:#d9d3c8;font-size:.95rem}
+  .duelo-item a{font-weight:700;word-break:break-all}
+
+  .highlight{margin-top:18px;padding:14px 16px;border-radius:14px;background:rgba(79,195,255,.07);border-left:3px solid var(--cyan);font-size:.94rem}
+  .highlight a{font-weight:700}
+  .warn{margin-top:18px;padding:14px 16px;border-radius:14px;background:rgba(255,90,90,.08);border-left:3px solid var(--red);color:#ffd0d0;font-size:.94rem}
+  .nada{color:var(--muted);text-align:center;padding:30px 0}
+
   .cta-box{
     position:relative;overflow:hidden;text-align:center;padding:50px 24px;border-radius:28px;
-    background:linear-gradient(160deg,#0d1a36,#050912);
-    border:1px solid var(--line);margin-top:34px;
+    background:linear-gradient(160deg,#0d1a36,#050912);border:1px solid var(--line);margin-top:34px;
   }
   .cta-box::before{
     content:"";position:absolute;inset:-50%;
@@ -338,30 +359,27 @@
   .cta-box p{color:var(--muted);margin-bottom:26px}
   .cta-box .btn-wpp{margin-top:14px}
 
-  footer{
-    position:relative;z-index:2;border-top:1px solid var(--line);
-    padding:34px 0 110px;text-align:center;color:var(--muted);font-size:.85rem;
-  }
+  footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:34px 0 110px;text-align:center;color:var(--muted);font-size:.85rem}
   footer .btn-discord{margin-bottom:18px}
 
-  /* barra fixa do celular */
   .mobile-bar{display:none}
-
-  /* entrada suave dos blocos (sem depender de JavaScript) */
   .reveal{animation:up .7s cubic-bezier(.2,.8,.2,1) backwards}
-  @keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 
-  /* ---------- MOBILE (90% do público) ---------- */
+  /* ---------- RESPONSIVO ---------- */
+  @media (max-width:900px){
+    .menu a.link{display:none}
+    .series-list{grid-template-columns:1fr}
+  }
   @media (max-width:760px){
-    .menu a:not(.btn-discord){display:none}
-    .brand span{font-size:1.3rem}
     .hero{padding:34px 0 30px}
     section{padding:40px 0}
-    .ace{width:90px;height:128px;margin-top:-64px;font-size:1.4rem;box-shadow:0 0 0 3px #0a1226}
-    .ace .sym{font-size:2.4rem}
-    .ace.l{left:-14px}
-    .ace.r{right:-14px}
-    .series-list{grid-template-columns:1fr}
+    .ace{width:80px;height:116px;margin-top:-58px;font-size:1.3rem}
+    .ace .sym{font-size:2.2rem}
+    .ace.l{left:-18px}
+    .ace.r{right:-18px}
+    .brand span{font-size:1.3rem}
+    .hero .btn-discord,.btn-discord:not(.small),.btn-wpp{width:100%}
+    .btn{padding:15px 20px}
     .s-name{font-size:1.8rem}
     .serie summary{padding:17px 16px}
     .s-body{padding:4px 16px 18px}
@@ -369,25 +387,27 @@
     .card{padding:13px;border-radius:16px}
     .thumb{margin-bottom:10px;border-radius:12px}
     .thumb-name{font-size:.82rem}
-    .hero .btn-discord{width:100%;font-size:.98rem;padding:17px}
-    .btn-discord:not(.small){width:100%}
-    .btn-wpp{width:100%}
-    .menu .btn-discord{width:auto}
-    .rules .body{padding:0 18px 18px 18px}
-    .rules summary .num{min-width:30px;height:30px;font-size:1rem}
+    .tabs{grid-template-columns:1fr;gap:8px;padding:6px}
+    .tab-btn{padding:13px 14px}
+    .tab-btn .t-title{font-size:1.45rem}
     .toolbar .ghost{width:100%}
+    .acc .body{padding:0 16px 18px 16px}
+    .acc summary .num{min-width:30px;height:30px;font-size:1rem}
+    .duelo-item{grid-template-columns:42px 1fr;padding:14px;gap:12px}
+    .duelo-item .n{width:42px;height:42px;font-size:1.2rem;border-radius:12px}
     .chips a{font-size:.8rem;padding:8px 13px}
+    .cta-box{padding:40px 18px}
     .mobile-bar{
       display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
-      z-index:60;padding:10px;border-radius:20px;
-      background:rgba(5,9,20,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-      border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.6);
-      align-items:center;gap:10px;
+      z-index:60;padding:10px;border-radius:20px;background:rgba(5,9,20,.88);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.6);align-items:center;gap:10px;
     }
     .mobile-bar .txt{flex:0 0 auto;font-size:.72rem;line-height:1.2;color:var(--muted);padding-left:6px}
     .mobile-bar .txt b{display:block;color:var(--silver);font-size:.82rem;font-family:'Bebas Neue';letter-spacing:1.5px;font-weight:400}
     .mobile-bar .btn-discord{flex:1;padding:13px 10px;font-size:.78rem;animation:none;border-radius:14px}
     .mobile-bar .btn-discord::after{display:none}
+    footer{padding-bottom:120px}
   }
   @media (max-width:360px){
     .grid{grid-template-columns:1fr}
@@ -410,11 +430,11 @@
       <span>BH REVELA</span>
     </a>
     <nav class="menu">
-      <a href="#series">Séries</a>
-      <a href="#personagens">Personagens</a>
-      <a href="#armas">Armas</a>
-      <a href="#regras">Regras</a>
-      <a href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener" class="btn-discord small">Entrar no Discord</a>
+      <a class="link" href="#series">Séries</a>
+      <a class="link" href="#personagens">Personagens</a>
+      <a class="link" href="#armas">Armas</a>
+      <a class="link" href="#regras">Regras</a>
+      <a href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener" class="btn btn-discord small">Discord</a>
     </nav>
   </div>
 </header>
@@ -427,29 +447,23 @@
       <div class="ace l"><span class="corner">A</span><span class="sym">♠</span><span class="corner bot">A</span></div>
       <div class="ace r"><span class="corner">A</span><span class="sym">♠</span><span class="corner bot">A</span></div>
     </div>
-
     <div class="container">
       <div class="logo-wrap">
         <img class="hero-logo" src="img/logo.jpg" alt="Logo BH Revela" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="hero-fallback">BH REVELA</div>
       </div>
-
-      <span class="eyebrow">♠ Filas · Sorteios · FULL UMP</span>
+      <span class="eyebrow">♠ Filas · Sorteios · Duelos · FULL UMP</span>
       <h1>Seja bem-vindo ao<br><span class="grad">Sorteado BH Revela</span></h1>
       <p class="lead">Partidas organizadas, sorteios transparentes e regras claras. Veja as séries, confira o regulamento e entre na nossa comunidade.</p>
+      <a class="btn btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord agora</a>
+      <p class="hero sub" style="margin-top:14px;font-size:.82rem;color:var(--muted)">Entrada exclusiva para maiores de 18 anos</p>
 
-      <a class="btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">
-        ♠ Entrar no Discord agora
-      </a>
-      <p class="sub">Entrada exclusiva para maiores de 18 anos</p>
-
-      <div class="chips" style="margin-top:30px">
+      <div class="chips">
         <a href="#series">Séries</a>
         <a href="#personagens">Personagens</a>
         <a href="#armas">Armas</a>
         <a href="#regras">Regulamento</a>
       </div>
-
       <div class="alert">⚠️ Participação proibida para menores de 18 anos. Ao entrar, você declara ter 18 anos ou mais.</div>
     </div>
   </div>
@@ -459,10 +473,9 @@
     <div class="container">
       <div class="sec-title"><span class="num">01</span><h2>Séries</h2></div>
       <div class="series-list" id="series-grid"></div>
-
       <div class="wpp-area">
         <p>Grupo oficial das séries no WhatsApp</p>
-        <a class="btn-wpp" href="https://chat.whatsapp.com/DTWJAxJahlr9BysUo7K7M9" target="_blank" rel="noopener">💬 Entrar no grupo do WhatsApp</a>
+        <a class="btn btn-wpp" href="https://chat.whatsapp.com/DTWJAxJahlr9BysUo7K7M9" target="_blank" rel="noopener">💬 Entrar no grupo do WhatsApp</a>
       </div>
     </div>
   </section>
@@ -472,7 +485,6 @@
     <div class="container">
       <div class="sec-title"><span class="num">02</span><h2>Personagens</h2></div>
       <div class="grid" id="chars-grid"></div>
-
       <div class="sec-title" style="margin-top:50px"><span class="num">03</span><h2>Pets</h2></div>
       <div class="grid" id="pets-grid"></div>
     </div>
@@ -491,21 +503,55 @@
   </section>
 
   <!-- REGRAS -->
-  <section id="regras" class="rules">
+  <section id="regras">
     <div class="container">
       <div class="sec-title"><span class="num">05</span><h2>Regulamento</h2></div>
-      <div class="toolbar">
-        <input class="search" id="search" type="search" placeholder="Buscar nas regras (ex: recriação, W.O., 0x0)...">
-        <button class="ghost" id="toggle-all">Abrir todas</button>
+
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-tab="sorteio" role="tab">
+          <span class="t-title">♠ Regras do Sorteado</span>
+          <span class="t-sub">Filas, sorteios e partidas</span>
+        </button>
+        <button class="tab-btn duelo" data-tab="duelo" role="tab">
+          <span class="t-title">⚔ Regras de Duelos</span>
+          <span class="t-sub">Duelos mediados por ADMs</span>
+        </button>
       </div>
-      <div id="rules-list"></div>
+
+      <!-- PAINEL: SORTEADO -->
+      <div class="panel active" id="panel-sorteio">
+        <div class="toolbar">
+          <input class="search" data-search="sorteio" type="search" placeholder="Buscar nas regras do sorteado (ex: recriação, W.O., 0x0)...">
+          <button class="ghost" data-toggle="sorteio">Abrir todas</button>
+        </div>
+        <div class="acc" id="rules-sorteio"></div>
+        <div class="highlight">Dúvidas? Fale com os administradores oficiais pelo Discord.</div>
+      </div>
+
+      <!-- PAINEL: DUELOS -->
+      <div class="panel" id="panel-duelo">
+        <div class="duelo-head">
+          <div class="duelo-banner">
+            <h3>Duelos BH Revela</h3>
+            <span class="mediar">Apenas ADMs podem mediar duelos</span><br>
+            <span class="price">+ R$ 20,00 = MURAL</span>
+          </div>
+        </div>
+        <div class="toolbar">
+          <input class="search" data-search="duelo" type="search" placeholder="Buscar nas regras de duelos (ex: recriar, level, pet)...">
+        </div>
+        <div class="duelo-list" id="rules-duelo"></div>
+        <div class="highlight">
+          <b>Discord:</b> <a href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">https://discord.gg/bh-revela-2k-915697060550950932</a>
+        </div>
+      </div>
 
       <div class="cta-box">
         <h2>Pronto para jogar?</h2>
         <p>Entre no Discord oficial, acompanhe os sorteios e fique por dentro de tudo.</p>
-        <a class="btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
+        <a class="btn btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
         <br>
-        <a class="btn-wpp" href="https://chat.whatsapp.com/DTWJAxJahlr9BysUo7K7M9" target="_blank" rel="noopener">💬 Grupo do WhatsApp</a>
+        <a class="btn btn-wpp" href="https://chat.whatsapp.com/DTWJAxJahlr9BysUo7K7M9" target="_blank" rel="noopener">💬 Grupo do WhatsApp</a>
       </div>
     </div>
   </section>
@@ -514,23 +560,20 @@
 
 <footer>
   <div class="container">
-    <a class="btn-discord small" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">Discord oficial</a>
+    <a class="btn btn-discord small" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">Discord oficial</a>
     <p>© BH Sorteado Revela · Proibido para menores de 18 anos</p>
   </div>
 </footer>
 
-<!-- barra fixa no celular -->
 <div class="mobile-bar">
-  <div class="txt"><b>BH REVELA</b>Sorteios e filas</div>
-  <a class="btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
+  <div class="txt"><b>BH REVELA</b>Sorteios e duelos</div>
+  <a class="btn btn-discord" href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">♠ Entrar no Discord</a>
 </div>
 
 <script>
 /* ============================================================
    EDITE AQUI: séries e jogadores
    aberta: true = aberta | false = fechada
-   Para adicionar ou tirar alguém, edite a lista "jogadores".
-   A quantidade de pessoas é calculada sozinha.
    ============================================================ */
 const SERIES = [
   { nome: "Série A", aberta: true, ranks: [
@@ -544,7 +587,7 @@ const SERIES = [
     { nome: "Inicial", jogadores: ["Bememal", "DG", "Yuki", "Al7 Wrong", "JG", "Thiago", "Thor", "Xre300", "Sys", "Alves!", "Iloveforgod", "Novaera", "Pipokoffx", "GB", "RD Oliveiraffx", "Cadillac", "Francorlq", "Xiucareca", "Cyclone", "Seelifeng", "30tou", "BGZ", "LimaFFX", "T7", "Dn", "Doosday", "SyncX", "hack7", "MT7"] }
   ]},
   { nome: "Série C", aberta: true, ranks: [
-    { nome: "Elite", jogadores: ["R7zin", "Kauanzin", "Bielzin7", "N7", "Luketa", "Dkzin", "Mts7", "Ryanx7", "Ghost7", "Tropa", "Mlkzin", "Drkff", "Tk7", "Deus&amp;Jesus", "Cryclone", "Ummuta"] },
+    { nome: "Elite", jogadores: ["R7zin", "Kauanzin", "Bielzin7", "N7", "Luketa", "Dkzin", "Mts7", "Ryanx7", "Ghost7", "Tropa", "Mlkzin", "Drkff", "Tk7", "Deus&Jesus", "Cryclone", "Ummuta"] },
     { nome: "Média", jogadores: ["Ryanx", "João7", "Tragedy", "Munay", "Gab7648", "Spingar", "Ariano", "ZKzin", "Luanff", "Kadu7", "Nandox", "Raffa", "M10", "2qn", "Alycia", "Nunes"] },
     { nome: "Inicial", jogadores: ["Inicio", "Diasdificeis", "Haridade", "Kyanca", "Raulmlkpuro", "Desproza7", "FBzin", "Rdz7", "Baixinhack", "Azeitona", "Mascotezzq", "Vitin7", "Juninff", "Pedrinff", "Lkzin", "Rafinha7", "Kauêzin", "Dk7", "Natanff", "Gui7", "Teteu7", "M4x", "kzin"] }
   ]},
@@ -553,25 +596,22 @@ const SERIES = [
   ]}
 ];
 
-/* Personagens e pets: arquivos PNG em img/personagens/ com estes nomes (minúsculas) */
 const CHARS = ["Alok", "Kelly", "Moco", "Maxim"];
 const PETS  = [
   { nome: "Tigrinho", file: "tigrinho" },
   { nome: "Pet de Gel (Pinguim)", file: "pinguim" }
 ];
-
-/* Armas: arquivos SVG em img/armas/ com estes nomes */
 const WEAPONS = [
   { nome: "UMP", file: "ump", tag: "Arma principal" },
   { nome: "Desert Eagle", file: "desert-eagle", tag: "Só no 1º round" },
   { nome: "Mini Uzi", file: "mini-uzi", tag: "Só no 1º round (correr)" }
 ];
-
-/* Quais imagens recebem a remoção de fundo (só estas três) */
 const LIMPAR_FUNDO = ["moco", "tigrinho", "maxim"];
 
-/* Regulamento */
-const RULES = [
+/* ============================================================
+   REGRAS DO SORTEADO
+   ============================================================ */
+const RULES_SORTEIO = [
   { t: "Disposições gerais", items: [
     "A participação nas filas implica a leitura e aceitação integral deste regulamento.",
     "É proibida a participação de menores de 18 anos em qualquer fila, partida ou atividade oficial.",
@@ -594,7 +634,7 @@ const RULES = [
     "Jogadores novatos só recebem vantagens se o ADM responsável considerar necessário.",
     "Entre na fila somente quando tiver disponibilidade para jogar.",
     "Após o sorteio não há reembolso por desistência ou indisponibilidade."
-  ], extra: { type: "highlight", text: "<b>Procedimento do sorteio:</b> o ADM grava a tela saindo do WhatsApp, escreve a palavra \"SORTEANDO\" e envia o registro no grupo antes de iniciar a roleta. Sem esse procedimento, o sorteio não é válido." }},
+  ], extra: [{ type: "highlight", text: "<b>Procedimento do sorteio:</b> o ADM grava a tela saindo do WhatsApp, escreve a palavra \"SORTEANDO\" e envia o registro no grupo antes de iniciar a roleta. Sem esse procedimento, o sorteio não é válido." }]},
   { t: "Entrada na sala", items: [
     "Após o envio do ID e da senha, os jogadores têm até 4 minutos para entrar na sala.",
     "Ultrapassando 5 minutos, o time adversário pode receber 1 round, ou o time atrasado pode pagar R$ 1,50 para recriação.",
@@ -652,30 +692,7 @@ const RULES = [
   { t: "Regras de análise", items: [
     "As regras de análise de tela, replay, dispositivos Android/iOS, emuladores, suspeitas de hack e procedimentos técnicos estão no regulamento de análise do Discord.",
     "Participar das filas implica ciência de que o jogador pode ser submetido a esses procedimentos."
-  ], extra: { type: "highlight", text: '<b>Canal oficial de análise:</b> <a href="https://discord.com/channels/915697060550950932/1543976094187655340" target="_blank" rel="noopener">clique aqui</a>' }},
-  { t: "Regras de Duelos", items: [
-    "Black List Android ou iOS: deve gravar todos os rounds. Relogar durante ou após a partida = W.O. Conta com no mínimo level 25.",
-    "Sem reembolso após criar a sala. Se não puder jogar, não entre. Ausência = W.O.",
-    "Round por quebra de regra só vale se o time de quem solicitou perder o round.",
-    "Cada time pode recriar a sala 1 vez grátis, a qualquer momento. A partir da segunda, taxa de R$ 1,00.",
-    "Pareamento por série. Novatos só pareiam com vantagem se o ADM achar necessário.",
-    "0 a 0 deve ser enviado ao ADM da fila em até 5 minutos depois de solicitado. Caso contrário, será recriado 0 a 0.",
-    "Personagens permitidos: Alok, Kelly, Moco e Maxim.",
-    "Todos os outros pets são proibidos, exceto Tigrinho e pet de gel.",
-    "Entrada na sala em até 4 minutos após ID e senha. Passando de 5 minutos, deve dar round ou pagar R$ 1,00 para recriar. Prazo para pagar: 8 minutos, depois W.O.",
-    "Queda com grande diferença no placar: pode recriar se voltar em até 4 minutos e provar a queda naquele round com gravação de tela ou print. Sem retorno do jogador, a partida continua normalmente, mesmo 2v1 ou 3v2.",
-    "O jogador deve conferir se o time está correto. Após 2 rounds jogados, não pode mais recriar por esse motivo.",
-    "Ao recriar, deve jogar na mesma conta, a não ser que todo o outro time aceite trocar. Se relogar e ficar sem 0x0, não será obrigatório ter 0x0 na partida refeita.",
-    "Personagem ou pet errado: avisar em até 2 rounds, ou a reclamação será desconsiderada. Para a recriação haverá custo adicional de R$ 0,50. Replay ativo é obrigatório.",
-    "Se ambos os times concordarem, pode recriar em 0x0. Sem acordo, somente em casos extremos o ADM decide pelo 0x0 ou reembolso.",
-    "Regras de análise: <a href=\"https://discord.com/channels/915697060550950932/1543976094187655340\" target=\"_blank\" rel=\"noopener\">clique aqui</a>",
-    "Regras x1 bate soco: <a href=\"https://discord.com/channels/915697060550950932/1543983564771823636\" target=\"_blank\" rel=\"noopener\">clique aqui</a>"
-  ], extra: [
-    { type: "warn", text: "<b>APENAS ADMS PODEM MEDIAR DUELOS.</b>" },
-    { type: "highlight", text: "<b>+ R$ 20,00 = MURAL</b>" },
-    { type: "highlight", text: '<b>Discord:</b> <a href="https://discord.gg/bh-revela-2k-915697060550950932" target="_blank" rel="noopener">https://discord.gg/bh-revela-2k-915697060550950932</a>' }
-  ]},
-  { t: "Entrada na sala", items: [], extra: null, _placeholder: true },
+  ], extra: [{ type: "highlight", text: '<b>Canal oficial de análise:</b> <a href="https://discord.com/channels/915697060550950932/1543976094187655340" target="_blank" rel="noopener">clique aqui</a>' }]},
   { t: "Streamers", items: [
     "Ao participar de partida contra um streamer, a organização e o gerenciamento da fila são responsabilidade do próprio streamer.",
     "Problemas dentro da fila administrada pelo streamer não são atribuídos automaticamente ao BH Sorteado Revela.",
@@ -694,7 +711,7 @@ const RULES = [
     "Prejuízos, golpes e desacordos decorrentes dessas negociações são de responsabilidade dos envolvidos.",
     "Somente procedimentos e decisões feitos diretamente pelos administradores oficiais representam a organização.",
     "Usar o nome, a marca ou os canais do BH Sorteado Revela não transforma negociações particulares em operações oficiais."
-  ], extra: { type: "warn", text: "<b>Atenção:</b> negocie apenas com administradores oficiais." }},
+  ], extra: [{ type: "warn", text: "<b>Atenção:</b> negocie apenas com administradores oficiais." }]},
   { t: "Disposições finais", items: [
     "Ao entrar em uma fila ou partida, o jogador declara estar ciente e de acordo com todas as regras.",
     "A administração pode avaliar situações excepcionais não previstas neste documento.",
@@ -704,11 +721,31 @@ const RULES = [
 ];
 
 /* ============================================================
+   REGRAS DE DUELOS (cada item vira um cartão numerado)
+   ============================================================ */
+const RULES_DUELO = [
+  "Black List Android ou iOS: deve gravar todos os rounds. Relogar durante ou após a partida = W.O. Conta com no mínimo level 25.",
+  "Sem reembolso após criar a sala. Se não puder jogar, não entre. Ausência = W.O.",
+  "Round por quebra de regra só vale se o time de quem solicitou perder o round.",
+  "Cada time pode recriar a sala 1 vez grátis, a qualquer momento. A partir da segunda, taxa de R$ 1,00.",
+  "Pareamento por série. Novatos só pareiam com vantagem se o ADM achar necessário.",
+  "0 a 0 deve ser enviado ao ADM da fila em até 5 minutos depois de solicitado. Caso contrário, será recriado 0 a 0.",
+  "Personagens permitidos: Alok, Kelly, Moco e Maxim.",
+  "Todos os outros pets são proibidos, exceto Tigrinho e pet de gel.",
+  "Entrada na sala em até 4 minutos após ID e senha. Passando de 5 minutos, deve dar round ou pagar R$ 1,00 para recriar. Prazo para pagar: 8 minutos, depois W.O.",
+  "Queda com grande diferença no placar: pode recriar se voltar em até 4 minutos e provar a queda naquele round com gravação de tela ou print. Sem retorno do jogador, a partida continua normalmente, mesmo 2v1 ou 3v2.",
+  "O jogador deve conferir se o time está correto. Após 2 rounds jogados, não pode mais recriar por esse motivo.",
+  "Ao recriar, deve jogar na mesma conta, a não ser que todo o outro time aceite trocar. Se relogar e ficar sem 0x0, não será obrigatório ter 0x0 na partida refeita.",
+  "Personagem ou pet errado: avisar em até 2 rounds, ou a reclamação será desconsiderada. Para a recriação haverá custo adicional de R$ 0,50. Replay ativo é obrigatório.",
+  "Se ambos os times concordarem, pode recriar em 0x0. Sem acordo, somente em casos extremos o ADM decide pelo 0x0 ou reembolso.",
+  'Regras de análise: <a href="https://discord.com/channels/915697060550950932/1543976094187655340" target="_blank" rel="noopener">clique aqui</a>',
+  'Regras x1 bate soco: <a href="https://discord.com/channels/915697060550950932/1543983564771823636" target="_blank" rel="noopener">clique aqui</a>'
+];
+
+/* ============================================================
    RENDERIZAÇÃO (não precisa mexer daqui pra baixo)
    ============================================================ */
 
-// Remove o fundo da imagem, apagando só o que está ligado às bordas.
-// Usada apenas nas imagens listadas em LIMPAR_FUNDO.
 function cleanBackground(img){
   if (img.dataset.cleaned) return;
   img.dataset.cleaned = "1";
@@ -721,12 +758,9 @@ function cleanBackground(img){
     ctx.drawImage(img, 0, 0, w, h);
     const id = ctx.getImageData(0, 0, w, h);
     const d = id.data;
-
-    // Pixels da borda e cor média do fundo
     const border = [];
     for (let x = 0; x < w; x++){ border.push((h-1)*w + x); border.push(x); }
     for (let y = 0; y < h; y++){ border.push(y*w); border.push(y*w + w - 1); }
-
     let sr = 0, sg = 0, sb = 0, n = 0;
     for (const p of border){
       const i = p*4;
@@ -734,30 +768,23 @@ function cleanBackground(img){
     }
     if (!n) return;
     const ar = sr/n, ag = sg/n, ab = sb/n;
-
-    const T_BG = 110;    // diferença máxima em relação à cor média do fundo
-    const T_VIZ = 40;    // diferença máxima entre vizinhos (acompanha degradês)
-
+    const T_BG = 110, T_VIZ = 40;
     const done = new Uint8Array(w*h);
     const stack = [];
     for (const p of border) stack.push(-1, p);
-
     while (stack.length){
       const p = stack.pop();
       const from = stack.pop();
       if (done[p]) continue;
       const i = p*4;
       if (d[i+3] <= 10){ done[p] = 1; continue; }
-
       const dBg = Math.hypot(d[i]-ar, d[i+1]-ag, d[i+2]-ab);
       if (dBg > T_BG) continue;
-
       if (from >= 0){
         const j = from*4;
         const dViz = Math.hypot(d[i]-d[j], d[i+1]-d[j+1], d[i+2]-d[j+2]);
         if (dViz > T_VIZ) continue;
       }
-
       done[p] = 1;
       d[i+3] = 0;
       const x = p % w, y = (p - x) / w;
@@ -766,15 +793,12 @@ function cleanBackground(img){
       if (y > 0)     stack.push(p, p-w);
       if (y < h - 1) stack.push(p, p+w);
     }
-
     ctx.putImageData(id, 0, 0);
     img.src = c.toDataURL("image/png");
-  } catch (e) {
-    /* se o navegador bloquear o processamento, mantém a imagem original */
-  }
+  } catch (e) {}
 }
 
-// Naipes flutuando no fundo
+// Naipes flutuando
 const suitsEl = document.getElementById("suits");
 const SUITS = ["♠","♣","♥","♦"];
 for (let i = 0; i < 14; i++){
@@ -787,8 +811,6 @@ for (let i = 0; i < 14; i++){
   suitsEl.appendChild(s);
 }
 
-// Imagem de personagem, pet ou arma. Se faltar o arquivo, mostra "FOTO EM BREVE".
-// Só recebe a remoção de fundo se o nome estiver em LIMPAR_FUNDO.
 function thumb(file, nome, folder, ext = "svg"){
   const limpar = LIMPAR_FUNDO.includes(file) ? ' onload="cleanBackground(this)"' : "";
   return `<div class="thumb">
@@ -797,7 +819,7 @@ function thumb(file, nome, folder, ext = "svg"){
   </div>`;
 }
 
-// Séries (cada uma abre ao clicar e mostra os ranks com os nomes)
+// Séries
 document.getElementById("series-grid").innerHTML = SERIES.map(s => {
   const total = s.ranks.reduce((acc, r) => acc + r.jogadores.length, 0);
   const ranks = s.ranks.map(r => `
@@ -808,7 +830,6 @@ document.getElementById("series-grid").innerHTML = SERIES.map(s => {
       </div>
       <div class="names">${r.jogadores.map(j => `<span class="nm">${j}</span>`).join("")}</div>
     </div>`).join("");
-
   return `
   <details class="serie reveal">
     <summary>
@@ -827,23 +848,19 @@ document.getElementById("series-grid").innerHTML = SERIES.map(s => {
   </details>`;
 }).join("");
 
-// Personagens
+// Personagens, pets e armas
 document.getElementById("chars-grid").innerHTML = CHARS.map(c => `
   <div class="card reveal">
     ${thumb(c.toLowerCase(), c, "personagens", "png")}
     <div class="thumb-cat">Personagem</div>
     <div class="thumb-name">${c}</div>
   </div>`).join("");
-
-// Pets
 document.getElementById("pets-grid").innerHTML = PETS.map(p => `
   <div class="card reveal">
     ${thumb(p.file, p.nome, "personagens", "png")}
     <div class="thumb-cat">Pet</div>
     <div class="thumb-name">${p.nome}</div>
   </div>`).join("");
-
-// Armas
 document.getElementById("weapons-grid").innerHTML = WEAPONS.map(w => `
   <div class="card reveal">
     ${thumb(w.file, w.nome, "armas")}
@@ -851,43 +868,66 @@ document.getElementById("weapons-grid").innerHTML = WEAPONS.map(w => `
     <div class="thumb-name">${w.nome}</div>
   </div>`).join("");
 
-// Regras
-function renderRules(filter=""){
+// Regras do sorteado (acordeão com busca)
+function renderSorteio(filter = ""){
   const f = filter.trim().toLowerCase();
-  const list = document.getElementById("rules-list");
-  const html = RULES.filter(sec => !sec._placeholder).map((sec, i) => {
+  const html = RULES_SORTEIO.map((sec, i) => {
     const items = sec.items.filter(x => !f || x.toLowerCase().includes(f));
     const titleMatch = sec.t.toLowerCase().includes(f);
     if (f && !items.length && !titleMatch) return "";
     const shown = (f && !titleMatch) ? items : sec.items;
-    // aceita um bloco extra ou uma lista de blocos extras
-    const extras = [].concat(sec.extra || []);
-    const extra = extras.map(x => `<div class="${x.type}">${x.text}</div>`).join("");
+    const extra = (sec.extra || []).map(x => `<div class="${x.type}">${x.text}</div>`).join("");
     return `
     <details ${f ? "open" : ""}>
-      <summary>
-        <span class="left"><span class="num">${String(i+1).padStart(2,"0")}</span>${sec.t}</span>
-      </summary>
+      <summary><span class="left"><span class="num">${String(i+1).padStart(2,"0")}</span>${sec.t}</span></summary>
       <div class="body">
         <ul>${shown.map(x => `<li>${x}</li>`).join("")}</ul>
         ${extra}
       </div>
     </details>`;
   }).join("");
-  list.innerHTML = html || `<p style="color:var(--muted);text-align:center;padding:30px 0">Nada encontrado. Tente outra palavra.</p>`;
+  document.getElementById("rules-sorteio").innerHTML = html || `<p class="nada">Nada encontrado. Tente outra palavra.</p>`;
 }
-renderRules();
-document.getElementById("search").addEventListener("input", e => renderRules(e.target.value));
 
-// Abrir / fechar todas as regras
+// Regras de duelos (cartões com busca)
+function renderDuelo(filter = ""){
+  const f = filter.trim().toLowerCase();
+  const items = RULES_DUELO
+    .map((x, i) => ({ x, i }))
+    .filter(o => !f || o.x.toLowerCase().includes(f));
+  const html = items.map(o => `
+    <div class="duelo-item">
+      <div class="n">${String(o.i+1).padStart(2,"0")}</div>
+      <p>${o.x}</p>
+    </div>`).join("");
+  document.getElementById("rules-duelo").innerHTML = html || `<p class="nada">Nada encontrado. Tente outra palavra.</p>`;
+}
+
+renderSorteio();
+renderDuelo();
+
+// Busca separada para cada aba
+document.querySelector('[data-search="sorteio"]').addEventListener("input", e => renderSorteio(e.target.value));
+document.querySelector('[data-search="duelo"]').addEventListener("input", e => renderDuelo(e.target.value));
+
+// Abrir / fechar todas as regras do sorteado
 let allOpen = false;
-document.getElementById("toggle-all").addEventListener("click", e => {
+document.querySelector('[data-toggle="sorteio"]').addEventListener("click", e => {
   allOpen = !allOpen;
-  document.querySelectorAll("#rules-list details").forEach(d => d.open = allOpen);
-  e.target.textContent = allOpen ? "Fechar todas" : "Abrir todas";
+  document.querySelectorAll("#rules-sorteio details").forEach(d => d.open = allOpen);
+  e.currentTarget.textContent = allOpen ? "Fechar todas" : "Abrir todas";
 });
 
-// Efeito de luz seguindo o mouse/dedo nos cards
+// Troca de abas
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const alvo = btn.dataset.tab;
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+    document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + alvo));
+  });
+});
+
+// Luz seguindo o mouse/dedo nos cards
 document.addEventListener("pointermove", e => {
   const card = e.target.closest && e.target.closest(".card");
   if (!card) return;
